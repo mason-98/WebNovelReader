@@ -6,6 +6,6 @@ interface WebSite {
 
 
     fun scrapeLatestUpdates()
-    fun scrapeBook(book: Book)
-    fun scrapeChapter(chapter: Chapter)
+    fun scrapeBook(bookExt: String)
+    fun scrapeChapter(chapterURL: String, chapterNum: Double, chapterTitle: String) : Chapter
 }
