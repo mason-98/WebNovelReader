@@ -3,17 +3,23 @@ package com.example.webnovelreader
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import com.example.webnovelreader.websites.BoxNovel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +44,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        lifecycleScope.launch(Dispatchers.IO) {
+            val boxNovel = BoxNovel()
+            boxNovel.scrapeChapter("https://boxnovel.com/novel/super-detective-in-the-fictional-world/chapter-93", 93.0, "Great Loot and Bittersweet Ability")
+            boxNovel.scrapeBook("novel/super-detective-in-the-fictional-world/")
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
