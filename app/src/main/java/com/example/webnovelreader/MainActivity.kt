@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             val boxNovel = BoxNovel()
             boxNovel.scrapeChapter("https://boxnovel.com/novel/super-detective-in-the-fictional-world/chapter-93", 93.0, "Great Loot and Bittersweet Ability")
             boxNovel.scrapeBook("novel/super-detective-in-the-fictional-world/")
-            boxNovel.scrapeBook("novel/warriors-promise/")
         }
 
     }

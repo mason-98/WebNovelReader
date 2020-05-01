@@ -21,14 +21,15 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
                 "Chapter "
             ).split(" - ", limit = 2)
             d("Mason", chapterInfo.toString())
+            val chapterURL = it.child(0).attr("href").toString()
             try {
                 scrapeChapter(
-                    it.child(0).attr("href").toString(),
+                    chapterURL,
                     chapterInfo[0].toDouble(), chapterInfo[1]
                 )
             } catch (e: IndexOutOfBoundsException){
                 scrapeChapter(
-                    it.child(0).attr("href").toString(),
+                    chapterURL,
                     chapterInfo[0].toDouble(), ""
                 )
             }
@@ -51,7 +52,6 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         var contentHtml = doc.selectFirst("div.text-left").select("p")
         val content = contentHtml.joinToString().replace(
             "<p>", "").replace("</p>", "\n")
-        d("Mason", content)
         return BoxNovelChapter(chapterNum, chapterTitle, content, chapterURL)
 
     }
