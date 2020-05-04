@@ -8,12 +8,4 @@ interface Chapter {
     var nextChapter: String
     var prevChapter: String
 
-    fun getChapterNum()
-    fun getChapterTitle()
-    fun setChapterTitle()
-    fun getNextChapter()
-    fun getPrevChapter()
-    fun getContent()
-    fun setContent()
-
 }

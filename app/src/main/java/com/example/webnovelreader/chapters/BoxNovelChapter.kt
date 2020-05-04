@@ -1,44 +1,26 @@
 package com.example.webnovelreader.chapters
 
-import com.example.webnovelreader.interfaces.Book
 import com.example.webnovelreader.interfaces.Chapter
 
-class BoxNovelChapter(override val chapterNum: Double,
-                      override var chapterTitle: String,
-                      override var content: String,
-                      override var url: String,
-                      override var nextChapter: String = "",
-                      override var prevChapter: String = ""
+class BoxNovelChapter(
+    chapterNum: Double,
+    chapterTitle: String,
+    content: String,
+    url: String,
+    nextChapter: String = "",
+    prevChapter: String = ""
 ) : Chapter {
 
-
-
-    override fun getChapterNum() {
-        TODO("Not yet implemented")
-    }
-
-    override fun getContent() {
-        TODO("Not yet implemented")
-    }
-
-    override fun setContent() {
-        TODO("Not yet implemented")
-    }
-
-    override fun getChapterTitle() {
-        TODO("Not yet implemented")
-    }
-
-    override fun setChapterTitle() {
-        TODO("Not yet implemented")
-    }
-
-    override fun getNextChapter() {
-        TODO("Not yet implemented")
-    }
-
-    override fun getPrevChapter() {
-        TODO("Not yet implemented")
-    }
+    override val chapterNum: Double = chapterNum
+    override var chapterTitle: String = chapterTitle
+        set(chapterTitle) {this.chapterTitle = chapterTitle}
+    override var content: String = content
+        set(content) {this.content = content}
+    override var url: String = url
+        set(url) {this.url = url}
+    override var nextChapter: String = nextChapter
+        set(nextChapter) {this.nextChapter = nextChapter}
+    override var prevChapter: String = prevChapter
+        set(prevChapter) {this.prevChapter = prevChapter}
 
 }
