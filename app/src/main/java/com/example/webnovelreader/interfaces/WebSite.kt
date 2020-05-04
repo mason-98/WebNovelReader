@@ -8,7 +8,7 @@ interface WebSite {
 
 
     fun scrapeLatestUpdates() : List<BookCover>
-    fun scrapeBook(bookExt: String): Book
+    fun scrapeBook(bookUrl: String): Book
     fun scrapeChapter(chapterURL: String, chapterNum: Double, chapterTitle: String) : Chapter
     fun scrapeChapterList(bookUrl: String): Map<String, Chapter>
 }
