@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".chapterlist"
-    tools:showIn="@layout/activity_chapterlist">
+    tools:context=".chapterList"
+    tools:showIn="@layout/activity_chapter_list">
 
     <TextView
         android:layout_width="wrap_content"
