@@ -1,6 +1,7 @@
 package com.example.webnovelreader
 
 import android.os.Bundle
+import android.util.Log.d
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,7 +18,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         lifecycleScope.launch(Dispatchers.IO) {
             val boxNovel = BoxNovel()
-            boxNovel.scrapeChapter("https://boxnovel.com/novel/super-detective-in-the-fictional-world/chapter-93", 93.0, "Great Loot and Bittersweet Ability")
-            boxNovel.scrapeBook("novel/super-detective-in-the-fictional-world/")
+            val book = boxNovel.scrapeBook("https://boxnovel.com/novel/super-detective-in-the-fictional-world/")
+            d("Mason", book.toString())
         }
 
     }
