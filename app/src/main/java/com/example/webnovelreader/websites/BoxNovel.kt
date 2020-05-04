@@ -10,21 +10,20 @@ import java.lang.Exception
 class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
                override val latestUpdateExt: String = "page/") : WebSite {
 
-    override fun scrapeBook(bookExt: String): BoxNovelBook {
-        val url = baseURL + bookExt
-        val doc = Jsoup.connect(url).maxBodySize(0).get()
+    override fun scrapeBook(bookUrl: String): BoxNovelBook {
+        val doc = Jsoup.connect(bookUrl).maxBodySize(0).get()
         val bookTitleHeader = doc.select("div.post-title h3")[0]
         var bookTitle: String
         val chapterListHTML = doc.select("li.wp-manga-chapter")
-        val chapterList = scrapeChapterList(url)
+        val chapterList = scrapeChapterList(bookUrl)
         bookTitle = try {
             bookTitleHeader.childNode(2).toString().trim()
         } catch (e: Exception){
             bookTitleHeader.childNode(0).toString().trim()
         }
         var author: String
-        author = ""
-        return BoxNovelBook(bookTitle, url, author, chapterList)
+        author = doc.selectFirst("div.author-content a").text()
+        return BoxNovelBook(bookTitle, bookUrl, author, chapterList)
     }
 
     override fun scrapeChapterList(bookUrl: String): Map<String, Chapter> {
@@ -68,7 +67,7 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
             prevChapter = it.attr("href").toString()
         }
         val content = contentHtml.joinToString(separator = "").replace(
-            "<p>", "").replace("</p>", "\n")
+            "<p>", "").replace("</p>", "\n\n")
 
         return BoxNovelChapter(chapterNum, chapterTitle, content, chapterURL, nextChapter, prevChapter)
 
