@@ -50,8 +50,8 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
     override fun scrapeChapter(chapterURL: String, chapterNum: Double, chapterTitle: String) : BoxNovelChapter {
         val doc = Jsoup.connect(chapterURL).get()
         var contentHtml = doc.selectFirst("div.text-left").select("p")
-        val content = contentHtml.joinToString().replace(
-            "<p>", "").replace("</p>", "\n")
+        val content = contentHtml.joinToString(separator = "").replace(
+            "<p>", "").replace("</p>", "\n\n")
         return BoxNovelChapter(chapterNum, chapterTitle, content, chapterURL)
 
     }

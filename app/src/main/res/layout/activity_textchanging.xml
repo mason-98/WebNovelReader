@@ -7,18 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".textchanging">
 
-    <TextView
-        android:id="@+id/anytext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginLeft="92dp"
-        android:text="THIS IS A BUNCH OF TEXT"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/readertoolbar"
         android:layout_width="409dp"
@@ -39,6 +27,24 @@
             tools:layout_editor_absoluteX="344dp"
             tools:layout_editor_absoluteY="2dp" />
     </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/readertoolbar">
+
+        <TextView
+            android:id="@+id/anytext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
