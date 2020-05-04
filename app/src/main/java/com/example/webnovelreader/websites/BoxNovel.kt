@@ -2,6 +2,7 @@ package com.example.webnovelreader.websites
 
 import android.util.Log.d
 import com.example.webnovelreader.books.BoxNovelBook
+import com.example.webnovelreader.books.covers.BoxNovelBookCover
 import com.example.webnovelreader.chapters.BoxNovelChapter
 import com.example.webnovelreader.interfaces.*
 import org.jsoup.Jsoup
@@ -14,7 +15,6 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         val doc = Jsoup.connect(bookUrl).maxBodySize(0).get()
         val bookTitleHeader = doc.select("div.post-title h3")[0]
         var bookTitle: String
-        val chapterListHTML = doc.select("li.wp-manga-chapter")
         val chapterList = scrapeChapterList(bookUrl)
         bookTitle = try {
             bookTitleHeader.childNode(2).toString().trim()
@@ -49,8 +49,17 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         }.associateBy( {it.url}, {it} )
     }
 
-    override fun scrapeLatestUpdates() : List<BookCover> {
-        TODO("Not yet implemented")
+    override fun scrapeLatestUpdates(page: String) : List<BookCover> {
+        val url = baseURL+latestUpdateExt+page
+        var bookCovers : List<BookCover>
+        val doc = Jsoup.connect(url).maxBodySize(0).get()
+        val bookCoversHtml = doc.select("div.page-content-listing div.page-item-detail")
+        bookCovers = bookCoversHtml.map{
+
+            BoxNovelBookCover(it.selectFirst("a img").attr("src"), it.selectFirst("a").attr("title"), it.selectFirst("a").attr("href"))
+        }
+
+        return bookCovers
     }
 
     override fun scrapeChapter(chapterURL: String, chapterNum: Double, chapterTitle: String) : BoxNovelChapter {

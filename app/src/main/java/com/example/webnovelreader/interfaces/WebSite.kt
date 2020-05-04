@@ -7,7 +7,7 @@ interface WebSite {
     val latestUpdateExt: String
 
 
-    fun scrapeLatestUpdates() : List<BookCover>
+    fun scrapeLatestUpdates(page: String) : List<BookCover>
     fun scrapeBook(bookUrl: String): Book
     fun scrapeChapter(chapterURL: String, chapterNum: Double, chapterTitle: String) : Chapter
     fun scrapeChapterList(bookUrl: String): Map<String, Chapter>
