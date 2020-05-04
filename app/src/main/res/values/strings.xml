@@ -12,4 +12,14 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+
+    <string name="title_activity">Textchanging</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string-array name="textcolour">
+        <item>Default</item>
+        <item>Black</item>
+        <item>White</item>
+        <item>Yellow</item>
+    </string-array>
 </resources>
