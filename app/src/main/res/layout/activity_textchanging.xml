@@ -29,6 +29,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
+        android:id="@+id/swipingbox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="12dp"

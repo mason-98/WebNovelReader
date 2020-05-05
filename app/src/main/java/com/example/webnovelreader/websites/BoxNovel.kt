@@ -47,10 +47,8 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         val doc = Jsoup.connect(url).maxBodySize(0).get()
         val bookCoversHtml = doc.select("div.page-content-listing div.page-item-detail")
         bookCovers = bookCoversHtml.map{
-
             BoxNovelBookCover(it.selectFirst("a img").attr("src"), it.selectFirst("a").attr("title"), it.selectFirst("a").attr("href"))
         }
-
         return bookCovers
     }
 
@@ -69,7 +67,13 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         }
         val content = contentHtml.joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
             "<p>", "").replace("</p>", "\n\n")
-        return BoxNovelChapter(chapterTitle, chapterURL, content, nextChapter, prevChapter)
+        val newChapterTitle : String
+        newChapterTitle = if (chapterTitle == ""){
+            doc.select("li.active").text().toString()
+        } else {
+            chapterTitle
+        }
+        return BoxNovelChapter(newChapterTitle, chapterURL, content, nextChapter, prevChapter)
 
     }
 }

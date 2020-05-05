@@ -1,6 +1,7 @@
 package com.example.webnovelreader
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -33,7 +34,7 @@ class textchanging : AppCompatActivity() {
         val sharedPref = getSharedPreferences("settings", Context.MODE_PRIVATE)
         sharedPref.getInt("text_size", 14)
         val chapterUrl = intent.getStringExtra("chapter_url")
-        val chapterTitle = intent.getStringExtra("chapter_title")
+
         anytext.setTextColor(Color.parseColor(sharedPref!!.getString("text_colour", "#FFFFFF")))
         background.setBackgroundColor(Color.parseColor(sharedPref!!.getString("background_colour","#000000")))
         readersettings.setOnClickListener {
@@ -41,28 +42,36 @@ class textchanging : AppCompatActivity() {
             dialog.show(supportFragmentManager, "ReaderOptions")
 
         }
-        this@textchanging.supportActionBar?.title = chapterTitle
-
 
 
 
         lifecycleScope.launch(Dispatchers.IO) {
             val boxNovel = BoxNovel()
-            val chapter = boxNovel.scrapeChapter(chapterUrl,chapterTitle)
+            val chapter = boxNovel.scrapeChapter(chapterUrl)
             runOnUiThread {
-
                 anytext.text = chapter.content
-            }
-        }
-        anytext.setOnTouchListener(object : OnSwipeTouchListener(this){
-            override fun onSwipeRight() {
-                super.onSwipeRight()
-            }
+                this@textchanging.supportActionBar?.title = chapter.chapterTitle
+                swipingbox.setOnTouchListener(object : OnSwipeTouchListener(this@textchanging){
+                    override fun onSwipeRight() {
+                        super.onSwipeRight()
+                        d("nick", "you swiped right")
+                        finish()
+                        val intent = Intent(this@textchanging, textchanging::class.java)
+                        intent.putExtra("chapter_url",chapter.prevChapter)
 
-            override fun onSwipeLeft() {
-                super.onSwipeLeft()
-            }
-        })
+                        startActivity(intent)
+                    }
+
+                    override fun onSwipeLeft() {
+                        super.onSwipeLeft()
+                        d("nick", "you swiped left")
+                        finish()
+                        val intent = Intent(this@textchanging, textchanging::class.java)
+                        intent.putExtra("chapter_url",chapter.nextChapter)
+                        startActivity(intent)
+                    }
+                })}
+        }
     }
 
     open class OnSwipeTouchListener(ctx: Context?) : View.OnTouchListener {
@@ -150,7 +159,7 @@ class textchanging : AppCompatActivity() {
             textsizeselect?.setOnSeekBarChangeListener(object :
                 SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    exampleText.textSize = textsizeselect.progress.toFloat()
+                    exampleText.textSize = textsizeselect.progress.toFloat() + 8
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -158,7 +167,7 @@ class textchanging : AppCompatActivity() {
                 }
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {
-                    textbox?.textSize = textsizeselect.progress.toFloat()
+                    textbox?.textSize = textsizeselect.progress.toFloat() + 8
                     val edit = sharedPref?.edit()
                     edit?.putInt("text_size",textsizeselect.progress)
                     edit?.commit()
