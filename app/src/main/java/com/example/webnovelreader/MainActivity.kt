@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         lifecycleScope.launch(Dispatchers.IO) {
             val boxNovel = BoxNovel()
-            val bookChapter = boxNovel.scrapeChapter("https://boxnovel.com/novel/super-detective-in-the-fictional-world/chapter-113", 113.0, "")
+            val bookChapter = boxNovel.scrapeChapter("https://boxnovel.com/novel/super-detective-in-the-fictional-world/chapter-113",  "")
             val bookCovers = boxNovel.scrapeLatestUpdates("2")
             val book = boxNovel.scrapeBook("https://boxnovel.com/novel/reincarnation-of-the-strongest-sword-god-webnovel/")
             d("Mason", book.toString())

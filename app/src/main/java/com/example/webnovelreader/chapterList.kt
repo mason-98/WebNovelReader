@@ -1,5 +1,6 @@
 package com.example.webnovelreader
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log.d
 import android.view.View
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_chapter_list.*
 import kotlinx.android.synthetic.main.activity_textchanging.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable.start
 import kotlinx.coroutines.launch
 import java.security.AccessController.getContext
 
@@ -41,6 +43,12 @@ class chapterList : AppCompatActivity() {
                     chapter.text = chapterNumber.chapterTitle
                     chapter.textSize = 20.0F
                     chapter.setPadding(30,20,0,70)
+                    chapter.setOnClickListener {
+                        val intent = Intent(this@chapterList, textchanging::class.java)
+                        intent.putExtra("chapter_url", chapterNumber.url)
+                        intent.putExtra("chapter_title", chapterNumber.chapterTitle)
+                        startActivity(intent)
+                    }
                     chapterListings.addView(chapter)
 
 

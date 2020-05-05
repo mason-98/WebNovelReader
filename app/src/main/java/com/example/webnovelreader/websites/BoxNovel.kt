@@ -30,14 +30,12 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         val doc = Jsoup.connect(bookUrl).maxBodySize(0).get()
         val chapterListHTML = doc.select("li.wp-manga-chapter")
         return chapterListHTML.map {
-            val chapterInfo = it.child(0).text().toString().removePrefix(
-                "Chapter "
-            ).split(" ", limit = 2)
+            val chapterTitle = it.child(0).text().toString()
             val chapterURL = it.child(0).attr("href").toString()
             var chapter = try {
-                BoxNovelChapter(chapterInfo[0].toDouble(), chapterInfo[1],chapterURL)
+                BoxNovelChapter(chapterTitle,chapterURL)
             } catch (e: IndexOutOfBoundsException) {
-                BoxNovelChapter(chapterInfo[0].toDouble(), "", chapterURL)
+                BoxNovelChapter(chapterTitle, chapterURL)
             }
             chapter
         }
@@ -56,7 +54,7 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         return bookCovers
     }
 
-    override fun scrapeChapter(chapterURL: String, chapterNum: Double, chapterTitle: String) : BoxNovelChapter {
+    override fun scrapeChapter(chapterURL: String, chapterTitle: String) : BoxNovelChapter {
         val doc = Jsoup.connect(chapterURL).get()
         var contentHtml = doc.selectFirst("div.text-left").select("p")
         var nextChapter = ""
@@ -71,7 +69,7 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         }
         val content = contentHtml.joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
             "<p>", "").replace("</p>", "\n\n")
-        return BoxNovelChapter(chapterNum, chapterTitle, chapterURL, content, nextChapter, prevChapter)
+        return BoxNovelChapter(chapterTitle, chapterURL, content, nextChapter, prevChapter)
 
     }
 }
