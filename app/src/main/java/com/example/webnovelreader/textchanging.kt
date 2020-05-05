@@ -32,7 +32,7 @@ class textchanging : AppCompatActivity() {
         setContentView(R.layout.activity_textchanging)
         setSupportActionBar(findViewById(R.id.readertoolbar))
         val sharedPref = getSharedPreferences("settings", Context.MODE_PRIVATE)
-        sharedPref.getInt("text_size", 14)
+        anytext.textSize = sharedPref.getInt("text_size", 14).toFloat() + 8
         val chapterUrl = intent.getStringExtra("chapter_url")
 
         anytext.setTextColor(Color.parseColor(sharedPref!!.getString("text_colour", "#FFFFFF")))
@@ -150,9 +150,9 @@ class textchanging : AppCompatActivity() {
             val textsizeselect: SeekBar = dialog.findViewById(R.id.textsizeselector)
             // Grab default settings for displaying the example text to the user
             val sharedPref = this.activity?.getSharedPreferences("settings", Context.MODE_PRIVATE)
-            textsizeselect.progress = sharedPref!!.getInt("text_size", 14)
+            textsizeselect.progress = sharedPref!!.getInt("text_size", 14) - 8
             val exampletext: TextView = dialog.findViewById(R.id.exampleText)
-            exampletext.textSize = textsizeselect.progress.toFloat()
+            exampletext.textSize = textsizeselect.progress.toFloat() + 8
             //not sure how this works but it does
             val textbox = this.activity?.findViewById<TextView>(R.id.anytext)
             //define the actions of the seeekbar
@@ -163,13 +163,13 @@ class textchanging : AppCompatActivity() {
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
-                    textsizeselect.progress = sharedPref!!.getInt("text_size",14)
+                    textsizeselect.progress = sharedPref!!.getInt("text_size",14) - 8
                 }
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {
                     textbox?.textSize = textsizeselect.progress.toFloat() + 8
                     val edit = sharedPref?.edit()
-                    edit?.putInt("text_size",textsizeselect.progress)
+                    edit?.putInt("text_size",textsizeselect.progress + 8)
                     edit?.commit()
                 }
 
