@@ -8,9 +8,9 @@ import java.time.LocalDate
 class BoxNovelBook(title: String,
                    url: String,
                    author: String,
-                   chapterList: Map<String,Chapter>) : Book{
+                   chapterList: List<Chapter>) : Book{
 
-    override var chapterList: Map<String,Chapter> = chapterList
+    override var chapterList: List<Chapter> = chapterList
         set(chapterList) {this.chapterList = chapterList}
     override val title: String = title
     override val author: String = author

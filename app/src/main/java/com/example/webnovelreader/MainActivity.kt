@@ -2,6 +2,7 @@ package com.example.webnovelreader
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log.d
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -45,8 +46,10 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         lifecycleScope.launch(Dispatchers.IO) {
             val boxNovel = BoxNovel()
+            val bookChapter = boxNovel.scrapeChapter("https://boxnovel.com/novel/super-detective-in-the-fictional-world/chapter-113", 113.0, "")
             val bookCovers = boxNovel.scrapeLatestUpdates("2")
-            val book = boxNovel.scrapeBook("https://boxnovel.com/novel/super-detective-in-the-fictional-world/")
+            val book = boxNovel.scrapeBook("https://boxnovel.com/novel/reincarnation-of-the-strongest-sword-god-webnovel/")
+            d("Mason", book.toString())
         }
 
     }

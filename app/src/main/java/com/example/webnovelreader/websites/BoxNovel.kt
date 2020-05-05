@@ -26,27 +26,21 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         return BoxNovelBook(bookTitle, bookUrl, author, chapterList)
     }
 
-    override fun scrapeChapterList(bookUrl: String): Map<String, Chapter> {
+    override fun scrapeChapterList(bookUrl: String): List<Chapter> {
         val doc = Jsoup.connect(bookUrl).maxBodySize(0).get()
         val chapterListHTML = doc.select("li.wp-manga-chapter")
         return chapterListHTML.map {
             val chapterInfo = it.child(0).text().toString().removePrefix(
                 "Chapter "
-            ).split(" - ", limit = 2)
+            ).split(" ", limit = 2)
             val chapterURL = it.child(0).attr("href").toString()
             var chapter = try {
-                scrapeChapter(
-                    chapterURL,
-                    chapterInfo[0].toDouble(), chapterInfo[1]
-                )
-            } catch (e: IndexOutOfBoundsException){
-                scrapeChapter(
-                    chapterURL,
-                    chapterInfo[0].toDouble(), ""
-                )
+                BoxNovelChapter(chapterInfo[0].toDouble(), chapterInfo[1],chapterURL)
+            } catch (e: IndexOutOfBoundsException) {
+                BoxNovelChapter(chapterInfo[0].toDouble(), "", chapterURL)
             }
             chapter
-        }.associateBy( {it.url}, {it} )
+        }
     }
 
     override fun scrapeLatestUpdates(page: String) : List<BookCover> {
@@ -75,10 +69,9 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         prevChapterHTML?.let{
             prevChapter = it.attr("href").toString()
         }
-        val content = contentHtml.joinToString(separator = "").replace(
+        val content = contentHtml.joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
             "<p>", "").replace("</p>", "\n\n")
-
-        return BoxNovelChapter(chapterNum, chapterTitle, content, chapterURL, nextChapter, prevChapter)
+        return BoxNovelChapter(chapterNum, chapterTitle, chapterURL, content, nextChapter, prevChapter)
 
     }
 }
