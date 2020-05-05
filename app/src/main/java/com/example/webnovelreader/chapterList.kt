@@ -1,6 +1,5 @@
 package com.example.webnovelreader
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log.d
 import android.view.View
@@ -42,12 +41,6 @@ class chapterList : AppCompatActivity() {
                     chapter.text = "Chapter " + chapterNumber.toString()
                     chapter.textSize = 20.0F
                     chapter.setPadding(30,20,0,70)
-                    chapter.setOnClickListener {
-                        val intent = Intent(this@chapterList, textchanging::class.java)
-                        intent.putExtra("chapter_url", book.chapterList.)
-                        startActivity()
-                    }
-
                     chapterListings.addView(chapter)
 
 
