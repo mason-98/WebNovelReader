@@ -228,7 +228,6 @@ class textchanging : AppCompatActivity() {
                     )
                 )
             }
-            d("nick", "selected  colour is $colour")
         }
     }
 
