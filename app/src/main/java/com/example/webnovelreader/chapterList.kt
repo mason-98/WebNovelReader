@@ -36,9 +36,9 @@ class chapterList : AppCompatActivity() {
             val book = boxNovel.scrapeBook("https://boxnovel.com/novel/super-detective-in-the-fictional-world/")
             runOnUiThread {
                 val chapterListings = findViewById<LinearLayout>(R.id.chapterListings2)
-                for (chapterNumber in 1..book.chapterList.size) {
+                for (chapterNumber in book.chapterList) {
                     val chapter = TextView(this@chapterList)
-                    chapter.text = "Chapter " + chapterNumber.toString()
+                    chapter.text = chapterNumber.chapterTitle
                     chapter.textSize = 20.0F
                     chapter.setPadding(30,20,0,70)
                     chapterListings.addView(chapter)

@@ -5,8 +5,8 @@ import com.example.webnovelreader.interfaces.Chapter
 class BoxNovelChapter(
     chapterNum: Double,
     chapterTitle: String,
-    content: String,
     url: String,
+    content: String = "",
     nextChapter: String = "",
     prevChapter: String = ""
 ) : Chapter {
