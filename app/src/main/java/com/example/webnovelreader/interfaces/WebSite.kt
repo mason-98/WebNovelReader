@@ -9,6 +9,6 @@ interface WebSite {
 
     fun scrapeLatestUpdates(page: String) : List<BookCover>
     fun scrapeBook(bookUrl: String): Book
-    fun scrapeChapter(chapterURL: String, chapterNum: Double, chapterTitle: String) : Chapter
+    fun scrapeChapter(chapterURL: String, chapterTitle: String) : Chapter
     fun scrapeChapterList(bookUrl: String): List<Chapter>
 }

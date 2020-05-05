@@ -3,7 +3,6 @@ package com.example.webnovelreader.chapters
 import com.example.webnovelreader.interfaces.Chapter
 
 class BoxNovelChapter(
-    chapterNum: Double,
     chapterTitle: String,
     url: String,
     content: String = "",
@@ -11,7 +10,6 @@ class BoxNovelChapter(
     prevChapter: String = ""
 ) : Chapter {
 
-    override val chapterNum: Double = chapterNum
     override var chapterTitle: String = chapterTitle
         set(chapterTitle) {this.chapterTitle = chapterTitle}
     override var content: String = content

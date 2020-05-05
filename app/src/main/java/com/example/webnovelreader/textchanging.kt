@@ -45,7 +45,7 @@ class textchanging : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             val boxNovel = BoxNovel()
-            val chapter = boxNovel.scrapeChapter("https://boxnovel.com/novel/reincarnation-of-the-strongest-sword-god-webnovel/chapter-2617", 2617.0, "ROSSG")
+            val chapter = boxNovel.scrapeChapter("https://boxnovel.com/novel/reincarnation-of-the-strongest-sword-god-webnovel/chapter-2617",  "ROSSG")
             runOnUiThread {
             anytext.text = chapter.content
             }
