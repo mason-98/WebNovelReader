@@ -12,68 +12,94 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
                override val latestUpdateExt: String = "page/") : WebSite {
 
     override fun scrapeBook(bookUrl: String): BoxNovelBook {
-        val doc = Jsoup.connect(bookUrl).maxBodySize(0).get()
-        val bookTitleHeader = doc.select("div.post-title h3")[0]
-        var bookTitle: String
-        val chapterList = scrapeChapterList(bookUrl)
-        bookTitle = try {
-            bookTitleHeader.childNode(2).toString().trim()
-        } catch (e: Exception){
-            bookTitleHeader.childNode(0).toString().trim()
+        try {
+            val doc = Jsoup.connect(bookUrl).maxBodySize(0).get()
+            val bookTitleHeader = doc.select("div.post-title h3")[0]
+            var bookTitle: String
+            val chapterList = scrapeChapterList(bookUrl)
+            bookTitle = try {
+                bookTitleHeader.childNode(2).toString().trim()
+            } catch (e: Exception) {
+                bookTitleHeader.childNode(0).toString().trim()
+            }
+            var author: String
+            author = doc.selectFirst("div.author-content a").text()
+            return BoxNovelBook(bookTitle, bookUrl, author, chapterList)
+        } catch(e: Exception){
+            d("Error", e.toString())
+            return BoxNovelBook("", "", "", emptyList())
         }
-        var author: String
-        author = doc.selectFirst("div.author-content a").text()
-        return BoxNovelBook(bookTitle, bookUrl, author, chapterList)
     }
 
     override fun scrapeChapterList(bookUrl: String): List<Chapter> {
-        val doc = Jsoup.connect(bookUrl).maxBodySize(0).get()
-        val chapterListHTML = doc.select("li.wp-manga-chapter")
-        return chapterListHTML.map {
-            val chapterTitle = it.child(0).text().toString()
-            val chapterURL = it.child(0).attr("href").toString()
-            var chapter = try {
-                BoxNovelChapter(chapterTitle,chapterURL)
-            } catch (e: IndexOutOfBoundsException) {
-                BoxNovelChapter(chapterTitle, chapterURL)
+        try {
+            val doc = Jsoup.connect(bookUrl).maxBodySize(0).get()
+            val chapterListHTML = doc.select("li.wp-manga-chapter")
+            return chapterListHTML.map {
+                val chapterTitle = it.child(0).text().toString()
+                val chapterURL = it.child(0).attr("href").toString()
+                var chapter = try {
+                    BoxNovelChapter(chapterTitle, chapterURL)
+                } catch (e: IndexOutOfBoundsException) {
+                    BoxNovelChapter(chapterTitle, chapterURL)
+                }
+                chapter
             }
-            chapter
+        } catch (e: Exception){
+            d("Error", e.toString())
+            return emptyList()
         }
     }
 
     override fun scrapeLatestUpdates(page: String) : List<BookCover> {
-        val url = baseURL+latestUpdateExt+page
-        var bookCovers : List<BookCover>
-        val doc = Jsoup.connect(url).maxBodySize(0).get()
-        val bookCoversHtml = doc.select("div.page-content-listing div.page-item-detail")
-        bookCovers = bookCoversHtml.map{
-            BoxNovelBookCover(it.selectFirst("a img").attr("src"), it.selectFirst("a").attr("title"), it.selectFirst("a").attr("href"))
+        try {
+            val url = baseURL + latestUpdateExt + page
+            var bookCovers: List<BookCover>
+            val doc = Jsoup.connect(url).maxBodySize(0).get()
+            val bookCoversHtml = doc.select("div.page-content-listing div.page-item-detail")
+            bookCovers = bookCoversHtml.map {
+                BoxNovelBookCover(
+                    it.selectFirst("a img").attr("src"),
+                    it.selectFirst("a").attr("title"),
+                    it.selectFirst("a").attr("href")
+                )
+            }
+            return bookCovers
+        } catch (e:Exception){
+            d("Error", e.toString())
+            return emptyList()
         }
-        return bookCovers
     }
 
     override fun scrapeChapter(chapterURL: String, chapterTitle: String) : BoxNovelChapter {
-        val doc = Jsoup.connect(chapterURL).get()
-        var contentHtml = doc.selectFirst("div.text-left").select("p")
-        var nextChapter = ""
-        var prevChapter = ""
-        var nextChapterHTML = doc.selectFirst("div.nav-next a")
-        nextChapterHTML?.let{
-            nextChapter = it.attr("href").toString()
+        try {
+            val doc = Jsoup.connect(chapterURL).get()
+            var contentHtml = doc.selectFirst("div.text-left").select("p")
+            var nextChapter = ""
+            var prevChapter = ""
+            var nextChapterHTML = doc.selectFirst("div.nav-next a")
+            nextChapterHTML?.let {
+                nextChapter = it.attr("href").toString()
+            }
+            var prevChapterHTML = doc.selectFirst("div.nav-previous a")
+            prevChapterHTML?.let {
+                prevChapter = it.attr("href").toString()
+            }
+            val content =
+                contentHtml.joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
+                    "<p>", ""
+                ).replace("</p>", "\n\n")
+            val newChapterTitle: String
+            newChapterTitle = if (chapterTitle == "") {
+                doc.select("li.active").text().toString()
+            } else {
+                chapterTitle
+            }
+            return BoxNovelChapter(newChapterTitle, chapterURL, content, nextChapter, prevChapter)
+        } catch (e: Exception){
+            d("Error", e.toString())
+            return BoxNovelChapter("", "", "", "", "")
         }
-        var prevChapterHTML = doc.selectFirst("div.nav-previous a")
-        prevChapterHTML?.let{
-            prevChapter = it.attr("href").toString()
-        }
-        val content = contentHtml.joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
-            "<p>", "").replace("</p>", "\n\n")
-        val newChapterTitle : String
-        newChapterTitle = if (chapterTitle == ""){
-            doc.select("li.active").text().toString()
-        } else {
-            chapterTitle
-        }
-        return BoxNovelChapter(newChapterTitle, chapterURL, content, nextChapter, prevChapter)
 
     }
 }
