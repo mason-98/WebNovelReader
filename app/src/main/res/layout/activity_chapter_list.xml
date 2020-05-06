@@ -40,6 +40,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="@string/title_activity_chapter_list"
             app:toolbarId="@+id/toolbar">
 
             <androidx.appcompat.widget.Toolbar
