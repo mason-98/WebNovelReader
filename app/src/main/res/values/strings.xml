@@ -22,6 +22,11 @@
         <item>White</item>
         <item>Yellow</item>
     </string-array>
+    <string-array name="fontlist">
+        <item>Default</item>
+        <item>Montserrat</item>
+        <item>Open Sans</item>
+    </string-array>
     <string name="title_activity_chapter_list">chapterList</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
