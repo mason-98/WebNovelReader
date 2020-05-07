@@ -44,13 +44,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        lifecycleScope.launch(Dispatchers.IO) {
-            val boxNovel = BoxNovel()
-            val bookChapter = boxNovel.scrapeChapter("https://boxnovel.com/novel/super-detective-in-the-fictional-world/chapter-113")
-            val bookCovers = boxNovel.scrapeLatestUpdates("2")
-            val book = boxNovel.scrapeBook("https://boxnovel.com/novel/reincarnation-of-the-strongest-sword-god-webnovel/")
-            d("Mason", book.toString())
-        }
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            val boxNovel = BoxNovel()
+//            val bookChapter = boxNovel.scrapeChapter("https://boxnovel.com/novel/super-detective-in-the-fictional-world/chapter-113")
+//            val bookCovers = boxNovel.scrapeLatestUpdates("2")
+//            val book = boxNovel.scrapeBook("https://boxnovel.com/novel/reincarnation-of-the-strongest-sword-god-webnovel/")
+//            d("Mason", book.toString())
+//        }
 
     }
 
