@@ -95,9 +95,16 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
                 prevChapter = it.attr("href").toString()
             }
             val content =
-                contentHtml.joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
-                    "<p>", ""
-                ).replace("</p>", "\n\n")
+                if (contentHtml[0].toString().contains("<strong>")){
+                    contentHtml.drop(1).joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
+                        "<p>", ""
+                    ).replace("</p>", "\n\n")
+                } else {
+                    contentHtml.joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
+                        "<p>", ""
+                    ).replace("</p>", "\n\n")
+                }
+
             val newChapterTitle: String
             newChapterTitle = if (chapterTitle == "") {
                 doc.select("li.active").text().toString()

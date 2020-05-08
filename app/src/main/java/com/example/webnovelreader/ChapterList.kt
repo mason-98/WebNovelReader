@@ -2,8 +2,6 @@ package com.example.webnovelreader
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log.d
-import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -21,9 +19,8 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
-import kotlin.math.abs
 
-class chapterList : AppCompatActivity() {
+class ChapterList : AppCompatActivity() {
     fun hasInternetConnection(): Single<Boolean> {
         return Single.fromCallable {
             try {
@@ -74,12 +71,12 @@ class chapterList : AppCompatActivity() {
                         appbar.title = book.title
                         val chapterListings = findViewById<LinearLayout>(R.id.chapterListings2)
                         for (chapterNumber in book.chapterList) {
-                            val chapter = TextView(this@chapterList)
+                            val chapter = TextView(this@ChapterList)
                             chapter.text = chapterNumber.chapterTitle
                             chapter.textSize = 20.0F
                             chapter.setPadding(30, 20, 0, 70)
                             chapter.setOnClickListener {
-                                val intent = Intent(this@chapterList, textchanging::class.java)
+                                val intent = Intent(this@ChapterList, TextChanging::class.java)
                                 intent.putExtra("chapter_url", chapterNumber.url)
                                 intent.putExtra("chapter_title", chapterNumber.chapterTitle)
                                 startActivity(intent)
@@ -92,7 +89,7 @@ class chapterList : AppCompatActivity() {
             } else {
 
                 val t = Toast.makeText(
-                    this@chapterList,
+                    this@ChapterList,
                     "You are not connected to the internet",
                     Toast.LENGTH_LONG
                 )
