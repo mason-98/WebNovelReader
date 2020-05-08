@@ -3,6 +3,7 @@ package com.example.webnovelreader
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -59,6 +60,7 @@ class ChapterList : AppCompatActivity() {
                 cl.addView(views.get(x),0)
             }
         }
+
         progressbarholder.visibility = View.VISIBLE
         hasInternetConnection().subscribe { hasInternet ->
             if (hasInternet) {

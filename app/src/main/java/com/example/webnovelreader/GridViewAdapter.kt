@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import com.example.webnovelreader.interfaces.BookCover
 import kotlinx.android.synthetic.main.book_cover_details.view.*
 import java.lang.Exception
@@ -36,8 +37,12 @@ class GridViewAdapter : BaseAdapter {
             d("Error", e.toString())
             null
         }
+        bookCoverView.grid_image.layoutParams.height = 300
+        bookCoverView.grid_image.layoutParams.width = 200
         bookCoverView.grid_image.setImageBitmap(bmp)
+        bookCoverView.grid_image.scaleType = ImageView.ScaleType.FIT_XY
         bookCoverView.grid_text.text = bookCover.bookTitle
+        bookCoverView.grid_text.width = 200
         bookCoverView.setOnClickListener {
             val intent = Intent(this.context, ChapterList::class.java)
             intent.putExtra("bookUrl", bookCover.bookUrl)

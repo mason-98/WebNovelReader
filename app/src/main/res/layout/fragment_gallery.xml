@@ -10,9 +10,14 @@
         android:id="@+id/bookCoverGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="100"
         android:columnWidth="100dp"
         android:horizontalSpacing="15dp"
         android:numColumns="3"
-        android:verticalSpacing="15dp" />
+        android:verticalSpacing="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
