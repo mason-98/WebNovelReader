@@ -65,7 +65,7 @@ class ChapterList : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     val boxNovel = BoxNovel()
                     val book =
-                        boxNovel.scrapeBook("https://boxnovel.com/novel/super-detective-in-the-fictional-world/")
+                        boxNovel.scrapeBook(intent.getStringExtra("bookUrl"))
                     runOnUiThread {
                         val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)
                         appbar.title = book.title
