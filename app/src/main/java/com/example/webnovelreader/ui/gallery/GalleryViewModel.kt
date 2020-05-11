@@ -10,7 +10,16 @@ import java.lang.Exception
 class GalleryViewModel : ViewModel() {
 
     private val _bookCovers = MutableLiveData<List<BookCover>>().apply {
-        value = BoxNovel().scrapeLatestUpdates("1")
+        value = BoxNovel().scrapeLatestUpdates(_page.toString())
     }
-    val bookCovers: LiveData<List<BookCover>> = _bookCovers
+
+    private var _page = 1
+
+    fun incPage(){
+        _page += 1
+        _bookCovers.value = BoxNovel().scrapeLatestUpdates(_page.toString())
+        bookCovers = _bookCovers
+    }
+
+    var bookCovers: LiveData<List<BookCover>> = _bookCovers
 }

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.AbsListView
 import android.widget.GridView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.webnovelreader.GridViewAdapter
 import com.example.webnovelreader.R
+import com.example.webnovelreader.websites.BoxNovel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -61,8 +62,10 @@ class GalleryFragment : Fragment() {
                 galleryViewModel.bookCovers.observe(viewLifecycleOwner, Observer {
                     var adapter =
                         this.activity?.applicationContext?.let { it1 -> GridViewAdapter(it1, it) }
+//                    galleryViewModel.incPage()
                     gridView.adapter = adapter
                 })
+
             } else {
                 val t = Toast.makeText(
                     this.activity?.applicationContext,

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import com.example.webnovelreader.interfaces.Book
 import com.example.webnovelreader.interfaces.BookCover
 import kotlinx.android.synthetic.main.book_cover_details.view.*
 import java.lang.Exception
@@ -18,11 +19,11 @@ import java.net.URL
 
 
 class GridViewAdapter : BaseAdapter {
-    private var bookCoverList : List<BookCover>
+    private var bookCoverList : MutableList<BookCover> = mutableListOf()
     var context: Context
 
     constructor(context: Context, bookCoverList: List<BookCover>) : super() {
-        this.bookCoverList = bookCoverList
+        this.bookCoverList.addAll(bookCoverList)
         this.context = context
     }
 
@@ -49,6 +50,10 @@ class GridViewAdapter : BaseAdapter {
             context.startActivity(intent)
         }
         return bookCoverView
+    }
+
+    fun addBooks(books: List<BookCover>) {
+        this.bookCoverList.addAll(books)
     }
 
     override fun getItem(position: Int): Any {
