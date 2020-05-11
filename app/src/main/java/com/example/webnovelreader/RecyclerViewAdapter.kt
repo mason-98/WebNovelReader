@@ -24,16 +24,9 @@ class RecyclerViewAdapter(context : Context, bookCoverList: List<BookCover>)
     var context: Context
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var grid_image : ImageView
-        var grid_text : TextView
-        var parentLayout : RelativeLayout
-
-        init {
-            grid_image = itemView.findViewById(R.id.grid_image)
-            grid_text = itemView.findViewById(R.id.grid_text)
-            parentLayout = itemView.findViewById(R.id.bookCoverHolder)
-        }
-
+        var gridImage : ImageView = itemView.findViewById(R.id.grid_image)
+        var gridText : TextView = itemView.findViewById(R.id.grid_text)
+        var parentLayout : RelativeLayout = itemView.findViewById(R.id.bookCoverHolder)
     }
 
     init {
@@ -60,12 +53,12 @@ class RecyclerViewAdapter(context : Context, bookCoverList: List<BookCover>)
             d("Error", e.toString())
             null
         }
-        holder.grid_text.text = bookCover.bookTitle
-        holder.grid_text.width = 200
-        holder.grid_image.layoutParams.height = 300
-        holder.grid_image.layoutParams.width = 200
-        holder.grid_image.scaleType = ImageView.ScaleType.FIT_XY
-        holder.grid_image.setImageBitmap(bmp)
+        holder.gridText.text = bookCover.bookTitle
+        holder.gridText.width = 200
+        holder.gridImage.layoutParams.height = 300
+        holder.gridImage.layoutParams.width = 200
+        holder.gridImage.scaleType = ImageView.ScaleType.FIT_XY
+        holder.gridImage.setImageBitmap(bmp)
         holder.parentLayout.setOnClickListener {
             val intent = Intent(this.context, ChapterList::class.java)
             intent.putExtra("bookUrl", bookCover.bookUrl)
