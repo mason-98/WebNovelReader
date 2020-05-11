@@ -43,34 +43,33 @@ class TextChanging : AppCompatActivity() {
         }
 
 
+        //create a boxnovel object to scrape the chapter details
+        val boxNovel = BoxNovel()
+        val chapter = boxNovel.scrapeChapter(chapterUrl)
+        anytext.text = chapter.content
+        this@TextChanging.supportActionBar?.title = chapter.chapterTitle
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            val boxNovel = BoxNovel()
-            val chapter = boxNovel.scrapeChapter(chapterUrl)
-            runOnUiThread {
-                anytext.text = chapter.content
-                this@TextChanging.supportActionBar?.title = chapter.chapterTitle
-                swipingbox.setOnTouchListener(object : OnSwipeTouchListener(this@TextChanging){
-                    override fun onSwipeRight() {
-                        super.onSwipeRight()
-                        d("nick", "you swiped right")
-                        finish()
-                        val intent = Intent(this@TextChanging, TextChanging::class.java)
-                        intent.putExtra("chapter_url",chapter.prevChapter)
+        //create the swiping interaction with the users
+        swipingbox.setOnTouchListener(object : OnSwipeTouchListener(this@TextChanging){
+            override fun onSwipeRight() {
+                super.onSwipeRight()
+                d("nick", "you swiped right")
+                finish()
+                val intent = Intent(this@TextChanging, TextChanging::class.java)
+                intent.putExtra("chapter_url",chapter.prevChapter)
 
-                        startActivity(intent)
-                    }
+                startActivity(intent)
+          }
 
-                    override fun onSwipeLeft() {
-                        super.onSwipeLeft()
-                        d("nick", "you swiped left")
-                        finish()
-                        val intent = Intent(this@TextChanging, TextChanging::class.java)
-                        intent.putExtra("chapter_url",chapter.nextChapter)
-                        startActivity(intent)
-                    }
-                })}
-        }
+            override fun onSwipeLeft() {
+                super.onSwipeLeft()
+                d("nick", "you swiped left")
+                finish()
+                val intent = Intent(this@TextChanging, TextChanging::class.java)
+                intent.putExtra("chapter_url",chapter.nextChapter)
+                startActivity(intent)
+            }
+        })
     }
 
     open class OnSwipeTouchListener(ctx: Context?) : View.OnTouchListener {
@@ -130,6 +129,7 @@ class TextChanging : AppCompatActivity() {
             savedInstanceState: Bundle?
         ): View? {
             super.onCreateView(inflater, container, savedInstanceState)
+            val sharedPref = this.activity?.getSharedPreferences("settings", Context.MODE_PRIVATE)
             val dialog = inflater.inflate(R.layout.novel_apperance_settings,container,false)
             // The code to create the text theme dropdown
             val spinner: Spinner? = dialog.findViewById(R.id.textspinner)
@@ -141,10 +141,12 @@ class TextChanging : AppCompatActivity() {
                 ).also {adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinner?.adapter = adapter
+                    spinner?.setSelection(sharedPref!!.getInt("text_position", 0))
                 }
             }
             spinner?.onItemSelectedListener = this
             //creating font select spinnner
+
 
             val fontspinner: Spinner? = dialog.findViewById(R.id.fontspinner)
             context?.let {
@@ -156,13 +158,15 @@ class TextChanging : AppCompatActivity() {
                     adapter
                         .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     fontspinner?.adapter =adapter
+                    fontspinner?.setSelection(sharedPref!!.getInt("font_position", 0))
                 }
             }
             fontspinner?.onItemSelectedListener = this
+
+
             // define the seekbar to select the text size
             val textsizeselect: SeekBar = dialog.findViewById(R.id.textsizeselector)
             // Grab default settings for displaying the example text to the user
-            val sharedPref = this.activity?.getSharedPreferences("settings", Context.MODE_PRIVATE)
             textsizeselect.progress = sharedPref!!.getInt("text_size", 14) - 8
             val exampletext: TextView = dialog.findViewById(R.id.exampleText)
             exampletext.textSize = textsizeselect.progress.toFloat() + 8
@@ -243,21 +247,23 @@ class TextChanging : AppCompatActivity() {
                         )
                     )
                 }
+                edit?.putInt("text_position", p2)
+                edit?.commit()
             } else if (p0.id == R.id.fontspinner) {
                 if (item == "Montserrat") {
                     val typeFace = resources.getFont(R.font.montserrat)
                     textbox?.typeface =typeFace
                     edit?.putInt("font", R.font.montserrat)
-                    edit?.commit()
                 } else if (item == "Open Sans") {
                     val typeFace = resources.getFont(R.font.open_sans)
                     textbox?.typeface = typeFace
                     edit?.putInt("font", R.font.open_sans)
-                    edit?.commit()
                 } else if (item == "Default") {
                     val typeFace = resources.getFont(sharedPref!!.getInt("font", R.font.open_sans))
                     textbox?.typeface = typeFace
                 }
+                edit?.putInt("font_position", p2)
+                edit?.commit()
             }
         }
     }
