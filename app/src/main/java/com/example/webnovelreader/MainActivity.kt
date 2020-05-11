@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onDrawerClosed(drawerView: View) {
                 val navController = findNavController(R.id.nav_host_fragment)
                 if(itemid != item.itemId) {
-                    navController.navigate(itemid)
+                    navController.navigate(item.itemId)
                     itemid = item.itemId
                 }
             }

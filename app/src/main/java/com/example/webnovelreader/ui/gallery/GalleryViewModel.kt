@@ -9,17 +9,18 @@ import java.lang.Exception
 
 class GalleryViewModel : ViewModel() {
 
-    private val _bookCovers = MutableLiveData<List<BookCover>>().apply {
-        value = BoxNovel().scrapeLatestUpdates(_page.toString())
+    private var _bookCovers = MutableLiveData<MutableList<BookCover>>().apply {
+        value= arrayListOf()
+        value?.addAll(BoxNovel().scrapeLatestUpdates(_page.toString()))
     }
 
     private var _page = 1
 
-    fun incPage(){
-        _page += 1
-        _bookCovers.value = BoxNovel().scrapeLatestUpdates(_page.toString())
+    fun addBookCovers(curr_page: Int){
+        _page += curr_page
+        _bookCovers.value?.addAll(BoxNovel().scrapeLatestUpdates(_page.toString()))
         bookCovers = _bookCovers
     }
 
-    var bookCovers: LiveData<List<BookCover>> = _bookCovers
+    var bookCovers: LiveData<MutableList<BookCover>> = _bookCovers
 }
