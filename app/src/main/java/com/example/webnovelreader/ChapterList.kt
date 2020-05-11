@@ -64,32 +64,28 @@ class ChapterList : AppCompatActivity() {
         progressbarholder.visibility = View.VISIBLE
         hasInternetConnection().subscribe { hasInternet ->
             if (hasInternet) {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val boxNovel = BoxNovel()
-                    val book =
-                        boxNovel.scrapeBook(intent.getStringExtra("bookUrl"))
-                    runOnUiThread {
-                        val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)
-                        appbar.title = book.title
-                        val chapterListings = findViewById<LinearLayout>(R.id.chapterListings2)
-                        for (chapterNumber in book.chapterList) {
-                            val chapter = TextView(this@ChapterList)
-                            chapter.text = chapterNumber.chapterTitle
-                            chapter.textSize = 20.0F
-                            chapter.setPadding(30, 20, 0, 70)
-                            chapter.setOnClickListener {
-                                val intent = Intent(this@ChapterList, TextChanging::class.java)
-                                intent.putExtra("chapter_url", chapterNumber.url)
-                                intent.putExtra("chapter_title", chapterNumber.chapterTitle)
-                                startActivity(intent)
-                            }
-                            chapterListings.addView(chapter)
-                        }
-                    }
-                }
-                progressbarholder.visibility = View.GONE
-            } else {
 
+                val boxNovel = BoxNovel()
+                val book =
+                    boxNovel.scrapeBook(intent.getStringExtra("bookUrl"))
+                    val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)
+                    appbar.title = book.title
+                    val chapterListings = findViewById<LinearLayout>(R.id.chapterListings2)
+                    for (chapterNumber in book.chapterList) {
+                        val chapter = TextView(this@ChapterList)
+                        chapter.text = chapterNumber.chapterTitle
+                        chapter.textSize = 20.0F
+                        chapter.setPadding(30, 20, 0, 70)
+                        chapter.setOnClickListener {
+                            val intent = Intent(this@ChapterList, TextChanging::class.java)
+                            intent.putExtra("chapter_url", chapterNumber.url)
+                            intent.putExtra("chapter_title", chapterNumber.chapterTitle)
+                            startActivity(intent)
+                        }
+                        chapterListings.addView(chapter)
+                    }
+            progressbarholder.visibility = View.GONE
+            } else {
                 val t = Toast.makeText(
                     this@ChapterList,
                     "You are not connected to the internet",

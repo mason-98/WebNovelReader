@@ -12,23 +12,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.example.webnovelreader.ui.gallery.GalleryFragment
 import com.example.webnovelreader.ui.home.HomeFragment
 import com.example.webnovelreader.ui.slideshow.SlideshowFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.delay
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    var itemid = 0
+    var clickednavitem = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -59,26 +58,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawers()
+        val navCon = Navigation.findNavController(this,R.id.nav_host_fragment)
+        clickednavitem = item.itemId
+
         var drawerListener = object : DrawerLayout.SimpleDrawerListener() {
 
             override fun onDrawerClosed(drawerView: View) {
-                val navController = findNavController(R.id.nav_host_fragment)
-                if(itemid != item.itemId) {
-                    navController.navigate(item.itemId)
-                    itemid = item.itemId
+                d("nick", clickednavitem.toString())
+                navCon.navigate(clickednavitem)
                 }
             }
 
-        }
         drawerLayout.addDrawerListener(drawerListener)
 
         return true
     }
-
-
 
 
 }
