@@ -61,16 +61,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navController = findNavController(R.id.nav_host_fragment)
         drawerLayout.closeDrawers()
-        itemid = item.itemId
         var drawerListener = object : DrawerLayout.SimpleDrawerListener() {
 
             override fun onDrawerClosed(drawerView: View) {
                 val navController = findNavController(R.id.nav_host_fragment)
-                if(itemid != 0) {
+                if(itemid != item.itemId) {
                     navController.navigate(itemid)
-                    itemid = 0
+                    itemid = item.itemId
                 }
             }
 
