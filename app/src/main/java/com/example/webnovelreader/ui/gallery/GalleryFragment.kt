@@ -1,6 +1,9 @@
 package com.example.webnovelreader.ui.gallery
 
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,22 +12,35 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.webnovelreader.RecyclerViewAdapter
 import com.example.webnovelreader.R
+import com.example.webnovelreader.RecyclerViewAdapter
+import com.example.webnovelreader.RecyclerViewLoadMoreScroll
+import com.example.webnovelreader.interfaces.BookCover
+import com.example.webnovelreader.interfaces.OnLoadMoreListener
+import com.example.webnovelreader.websites.BoxNovel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_gallery.*
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 
 
 class GalleryFragment : Fragment() {
-
     private lateinit var galleryViewModel: GalleryViewModel
+    private lateinit var bookCovers: ArrayList<BookCover?>
+    private lateinit var loadMoreItemsCells: ArrayList<Int?>
+    private lateinit var adapterGrid: RecyclerViewAdapter
+    private lateinit var scrollListener: RecyclerViewLoadMoreScroll
+    private lateinit var mLayoutManager: RecyclerView.LayoutManager
+    private var curr_page = 2
+    private val VIEW_TYPE_ITEM = 0
+    private val VIEW_TYPE_LOADING = 1
 
-    fun hasInternetConnection(): Single<Boolean> {
+    private fun hasInternetConnection(): Single<Boolean> {
         return Single.fromCallable {
             try {
                 // Connect to Google DNS to check for connection
@@ -54,15 +70,15 @@ class GalleryFragment : Fragment() {
 
         hasInternetConnection().subscribe { hasInternet ->
             if (hasInternet) {
-                val recyclerView: RecyclerView = root.findViewById(R.id.bookCoverRecyclerView)
-                recyclerView.layoutManager = GridLayoutManager(this.activity?.applicationContext, 3)
-                galleryViewModel =
-                    ViewModelProviders.of(this).get(GalleryViewModel::class.java)
-                galleryViewModel.bookCovers.observe(viewLifecycleOwner, Observer {
-                    var adapter =
-                        this.activity?.applicationContext?.let { it1 -> RecyclerViewAdapter(it1, it) }
-                    recyclerView.adapter = adapter
-                })
+                setItemsData()
+                //** Set the adapterLinear of the RecyclerView
+                setAdapter()
+
+                //** Set the Layout Manager of the RecyclerView
+                setRVLayoutManager()
+
+                //** Set the scrollListerner of the RecyclerView
+                setRVScrollListener()
 
             } else {
                 val t = Toast.makeText(
@@ -76,34 +92,69 @@ class GalleryFragment : Fragment() {
         return root
     }
 
-    abstract class EndlessScrollListener(layoutManager: GridLayoutManager) :
-        RecyclerView.OnScrollListener() {
-        private var visibleThreshold = 2
-        private var currentPage = 1
-        private var previousTotalItemCount = 0
-        private var loading = true
-        private val mLayoutManager: RecyclerView.LayoutManager
-        override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-            val totalItemCount = mLayoutManager.itemCount
-            val lastVisibleItemPosition =
-                (mLayoutManager as GridLayoutManager).findLastVisibleItemPosition()
-            if (loading && totalItemCount > previousTotalItemCount) {
-                loading = false
-                previousTotalItemCount = totalItemCount
-            }
-            if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
-                currentPage++
-                onLoadMore(currentPage, totalItemCount, view)
-                loading = true
-            }
-        }
+    private fun setItemsData() {
+        bookCovers = ArrayList(BoxNovel().scrapeLatestUpdates((1).toString()))
+    }
 
-        abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?)
+    private fun setAdapter() {
+        adapterGrid = RecyclerViewAdapter(bookCovers)
+        adapterGrid.notifyDataSetChanged()
+        bookCoverRecyclerView.adapter = adapterGrid
+    }
 
-        // it can LinearLayoutManager as well
-        init {
-            mLayoutManager = layoutManager
-            visibleThreshold *= layoutManager.spanCount
+    private fun setRVLayoutManager() {
+        mLayoutManager = GridLayoutManager(this.activity?.applicationContext, 3)
+        bookCoverRecyclerView.layoutManager = mLayoutManager
+        bookCoverRecyclerView.setHasFixedSize(true)
+        bookCoverRecyclerView.adapter = adapterGrid
+        (mLayoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return when (adapterGrid.getItemViewType(position)) {
+                    VIEW_TYPE_ITEM -> 1
+                    VIEW_TYPE_LOADING -> 3 //number of columns of the grid
+                    else -> -1
+                }
+            }
         }
     }
+
+    private fun setRVScrollListener() {
+        scrollListener = RecyclerViewLoadMoreScroll(mLayoutManager as GridLayoutManager)
+        scrollListener.setOnLoadMoreListener(object :
+            OnLoadMoreListener {
+            override fun onLoadMore() {
+                LoadMoreData()
+            }
+        })
+
+        bookCoverRecyclerView.addOnScrollListener(scrollListener)
+    }
+
+    private fun LoadMoreData() {
+        //Add the Loading View
+        adapterGrid.addLoadingView()
+
+        //Get the number of the current Items of the main Arraylist
+        val start = adapterGrid.itemCount
+        //Load 16 more items
+        val end = start + 16
+        //Use Handler if the items are loading too fast.
+        //If you remove it, the data will load so fast that you can't even see the LoadingView
+        Handler().postDelayed({
+            //Create the loadMoreItemsCells Arraylist
+            var loadMoreBookCovers = ArrayList(BoxNovel().scrapeLatestUpdates((curr_page++).toString()))
+            //Remove the Loading View
+            adapterGrid.removeLoadingView()
+            //We adding the data to our main ArrayList
+            adapterGrid.addData(loadMoreBookCovers)
+            //Change the boolean isLoading to false
+            scrollListener.setLoaded()
+            //Update the recyclerView in the main thread
+            bookCoverRecyclerView.post {
+                adapterGrid.notifyDataSetChanged()
+            }
+        }, 3000)
+
+    }
+
 }
