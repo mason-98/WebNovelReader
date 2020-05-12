@@ -20,7 +20,7 @@
         <item>Default</item>
         <item>Black</item>
         <item>White</item>
-        <item>Yellow</item>
+        <item>Sepia</item>
     </string-array>
     <string-array name="fontlist">
         <item>Default</item>

@@ -2,25 +2,18 @@ package com.example.webnovelreader
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log.d
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
-import com.example.webnovelreader.ui.gallery.GalleryFragment
-import com.example.webnovelreader.ui.home.HomeFragment
-import com.example.webnovelreader.ui.slideshow.SlideshowFragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import kotlinx.coroutines.delay
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.setNavigationItemSelectedListener (this)
+
 
 
     }
