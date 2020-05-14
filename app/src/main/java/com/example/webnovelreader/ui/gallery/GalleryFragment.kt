@@ -1,6 +1,8 @@
 package com.example.webnovelreader.ui.gallery
 
+import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -40,6 +42,28 @@ class GalleryFragment : Fragment() {
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
 
+    public class GridSpacingItemDecoration(spanCount:Int, spacing:Int) : RecyclerView.ItemDecoration() {
+        private var spanCount = spanCount
+        private var spacing = spacing
+
+
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view)
+            val column = position % spanCount
+            outRect.left = spacing - column * spacing / spanCount
+            outRect.right = (column+1) * spacing / spanCount
+            if (position < spanCount) {
+                outRect.top = spacing
+            }
+            outRect.bottom = spacing
+
+        }
+    }
     private fun hasInternetConnection(): Single<Boolean> {
         return Single.fromCallable {
             try {
@@ -106,6 +130,8 @@ class GalleryFragment : Fragment() {
         mLayoutManager = GridLayoutManager(this.activity?.applicationContext, 3)
         bookCoverRecyclerView.layoutManager = mLayoutManager
         bookCoverRecyclerView.setHasFixedSize(true)
+        val gridSpace : GridSpacingItemDecoration = GridSpacingItemDecoration(3,30)
+        bookCoverRecyclerView.addItemDecoration(gridSpace)
         bookCoverRecyclerView.adapter = adapterGrid
         (mLayoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {

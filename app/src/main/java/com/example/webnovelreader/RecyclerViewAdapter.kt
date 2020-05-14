@@ -4,12 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Handler
 import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -96,11 +99,13 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
                 null
             }
             holder.itemView.grid_text.text = bookCover?.bookTitle
-            holder.itemView.grid_text.width = 200
-            holder.itemView.grid_image.layoutParams.height = 300
-            holder.itemView.grid_image.layoutParams.width = 200
+            holder.itemView.grid_text.width = 300
+            holder.itemView.grid_image.adjustViewBounds = true
             holder.itemView.grid_image.scaleType = ImageView.ScaleType.FIT_XY
+            holder.itemView.grid_image.layoutParams.width = 300
             holder.itemView.grid_image.setImageBitmap(bmp)
+            holder.itemView.layoutParams.height = WRAP_CONTENT
+            holder.itemView.layoutParams.width = WRAP_CONTENT
             holder.itemView.setOnClickListener {
                 val intent = Intent(this.context, ChapterList::class.java)
                 intent.putExtra("bookUrl", bookCover?.bookUrl)
