@@ -2,7 +2,7 @@ package com.example.webnovelreader.chapters
 
 import com.example.webnovelreader.interfaces.Chapter
 
-class VeraTalesChapter(
+class NovelAllChapter(
     chapterTitle: String,
     url: String,
     content: String = "",

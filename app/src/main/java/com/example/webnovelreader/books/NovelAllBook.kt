@@ -5,7 +5,7 @@ import com.example.webnovelreader.interfaces.WebSite
 import java.time.LocalDate
 
 
-class VeraTalesBook (  title: String,
+class NovelAllBook (  title: String,
                        url: String,
                        author: String,
                        chapterList: List<Chapter>) : Book{
