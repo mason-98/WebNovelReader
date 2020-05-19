@@ -2,14 +2,15 @@ package com.example.webnovelreader.websitesimport
 import android.os.AsyncTask
 import android.util.Log.d
 import com.example.webnovelreader.books.NovelAllBook
+import com.example.webnovelreader.books.covers.NovelAllBookCover
 import com.example.webnovelreader.chapters.NovelAllChapter
 import com.example.webnovelreader.interfaces.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 
-class NovelAll (override val baseURL: String = "https://veratales.com/",
-                override val latestUpdateExt: String = "?page") : WebSite {
+class NovelAll (override val baseURL: String = "https://www.novelall.com/",
+                override val latestUpdateExt: String = "list/New-Update/") : WebSite {
 
     private class JSoupGetUrl : AsyncTask<String, Void, Document>(){
         override fun doInBackground(vararg params: String): Document {
@@ -48,10 +49,52 @@ class NovelAll (override val baseURL: String = "https://veratales.com/",
     }
 
     override fun scrapeLatestUpdates(page: String) : List<BookCover> {
-        return emptyList()
+        try{
+            val url = baseURL + latestUpdateExt
+            val bookCovers: List<BookCover>
+            val doc = JSoupGetUrl().execute(url).get()
+            val bookCoversHtml = doc.select("div.main-content li")
+            bookCovers = bookCoversHtml.map {
+                NovelAllBookCover(
+                    it.selectFirst("a img").attr("src"),
+                    it.selectFirst("a").attr("title"),
+                    it.selectFirst("a").attr("href")
+                )
+            }
+            return bookCovers
+        } catch (e:Exception){
+            d("Error", e.toString())
+            return emptyList()
+        }
     }
 
     override fun scrapeChapter(chapterURL: String, chapterTitle: String) : NovelAllChapter {
-        return NovelAllChapter("","","","","")
+        try {
+            val doc = JSoupGetUrl().execute(chapterURL).get()
+            val contentHtml = doc.selectFirst("section.mangaread-img div.reading-box").select("p")
+            var nextChapter = ""
+            var prevChapter = ""
+            val nextChapterHTML = doc.select("div.mangaread-pagenav a")[0]
+            nextChapterHTML?.let {
+                nextChapter = it.attr("href").toString()
+            }
+            var prevChapterHTML = doc.select("div.mangaread-pagenav a")[1]
+            prevChapterHTML?.let {
+                prevChapter = it.attr("href").toString()
+            }
+            val content = contentHtml.joinToString(separator = "").replace("</p><p>", "\n\n").replace("<p>", "").replace("</p>", "")
+
+
+            val newChapterTitle: String
+            newChapterTitle = if (chapterTitle == "") {
+                doc.select("section.mangaread-top div.title h1").text().toString()
+            } else {
+                chapterTitle
+            }
+            return NovelAllChapter(newChapterTitle, chapterURL, content, nextChapter, prevChapter)
+        } catch (e: Exception){
+            d("Error", e.toString())
+            return NovelAllChapter("", "", "", "", "")
+        }
     }
 }
