@@ -52,6 +52,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
 
 
+
     implementation 'com.github.andrefrsousa:superBottomSheet:1.5.0'
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
@@ -67,4 +68,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'org.jsoup:jsoup:1.12.1'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
+
 }

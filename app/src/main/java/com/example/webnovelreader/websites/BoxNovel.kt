@@ -24,14 +24,14 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         try {
             val doc = JSoupGetUrl().execute(bookUrl).get()
             val bookTitleHeader = doc.select("div.post-title h3")[0]
-            var bookTitle: String
+            val bookTitle: String
             val chapterList = scrapeChapterList(bookUrl)
             bookTitle = try {
                 bookTitleHeader.childNode(2).toString().trim()
             } catch (e: Exception) {
                 bookTitleHeader.childNode(0).toString().trim()
             }
-            var author: String
+            val author: String
             author = doc.selectFirst("div.author-content a").text()
             return BoxNovelBook(bookTitle, bookUrl, author, chapterList)
         } catch(e: Exception){
@@ -41,29 +41,25 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
     }
 
     override fun scrapeChapterList(bookUrl: String): List<Chapter> {
-        try {
+        return try {
             val doc = JSoupGetUrl().execute(bookUrl).get()
             val chapterListHTML = doc.select("li.wp-manga-chapter")
-            return chapterListHTML.map {
+            chapterListHTML.map {
                 val chapterTitle = it.child(0).text().toString()
                 val chapterURL = it.child(0).attr("href").toString()
-                var chapter = try {
-                    BoxNovelChapter(chapterTitle, chapterURL)
-                } catch (e: IndexOutOfBoundsException) {
-                    BoxNovelChapter(chapterTitle, chapterURL)
-                }
+                val chapter = BoxNovelChapter(chapterTitle, chapterURL)
                 chapter
             }
         } catch (e: Exception){
             d("Error", e.toString())
-            return emptyList()
+            emptyList()
         }
     }
 
     override fun scrapeLatestUpdates(page: String) : List<BookCover> {
         try{
             val url = baseURL + latestUpdateExt + page
-            var bookCovers: List<BookCover>
+            val bookCovers: List<BookCover>
             val doc = JSoupGetUrl().execute(url).get()
             val bookCoversHtml = doc.select("div.page-content-listing div.page-item-detail")
             bookCovers = bookCoversHtml.map {
@@ -83,10 +79,10 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
     override fun scrapeChapter(chapterURL: String, chapterTitle: String) : BoxNovelChapter {
         try {
             val doc = JSoupGetUrl().execute(chapterURL).get()
-            var contentHtml = doc.selectFirst("div.text-left").select("p")
+            val contentHtml = doc.selectFirst("div.text-left").select("p")
             var nextChapter = ""
             var prevChapter = ""
-            var nextChapterHTML = doc.selectFirst("div.nav-next a")
+            val nextChapterHTML = doc.selectFirst("div.nav-next a")
             nextChapterHTML?.let {
                 nextChapter = it.attr("href").toString()
             }
