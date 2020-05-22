@@ -93,10 +93,14 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
             val bookCover = this.bookCoverList[position]
             var bmp: Bitmap?
             bmp = try {
-                GetImage().execute(bookCover?.bookCoverUrl).get()
+                val image = GetImage()
+                image.execute(bookCover?.bookCoverUrl).get()
             } catch (e: Exception) {
                 d("Error", e.toString())
                 null
+            }
+            if(bmp == null) {
+                bmp = BitmapFactory.decodeResource(context.resources,R.drawable.defaultnoimage)
             }
             holder.itemView.grid_text.text = bookCover?.bookTitle
             holder.itemView.grid_text.width = 300
@@ -116,7 +120,7 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
 
 
     private class GetImage : AsyncTask<String, Void, Bitmap>(){
-        override fun doInBackground(vararg params: String): Bitmap {
+        override fun doInBackground(vararg params: String): Bitmap? {
             val url = URL(params[0])
             return BitmapFactory.decodeStream(url.openConnection().getInputStream())
         }

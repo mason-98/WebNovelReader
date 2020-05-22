@@ -7,10 +7,11 @@ import com.example.webnovelreader.chapters.NovelAllChapter
 import com.example.webnovelreader.interfaces.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.io.Serializable
 
 
 class NovelAll (override val baseURL: String = "https://www.novelall.com/",
-                override val latestUpdateExt: String = "list/New-Update/") : WebSite {
+                override val latestUpdateExt: String = "list/New-Update/") : WebSite, Serializable {
 
     private class JSoupGetUrl : AsyncTask<String, Void, Document>(){
         override fun doInBackground(vararg params: String): Document {

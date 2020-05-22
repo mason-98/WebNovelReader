@@ -8,10 +8,11 @@ import com.example.webnovelreader.chapters.BoxNovelChapter
 import com.example.webnovelreader.interfaces.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.io.Serializable
 import java.lang.Exception
 
 class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
-               override val latestUpdateExt: String = "page/") : WebSite {
+               override val latestUpdateExt: String = "page/") : WebSite, Serializable {
 
     private class JSoupGetUrl : AsyncTask<String, Void, Document>(){
         override fun doInBackground(vararg params: String): Document {

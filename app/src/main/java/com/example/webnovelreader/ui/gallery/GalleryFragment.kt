@@ -21,7 +21,9 @@ import com.example.webnovelreader.RecyclerViewAdapter
 import com.example.webnovelreader.RecyclerViewLoadMoreScroll
 import com.example.webnovelreader.interfaces.BookCover
 import com.example.webnovelreader.interfaces.OnLoadMoreListener
+import com.example.webnovelreader.interfaces.WebSite
 import com.example.webnovelreader.websites.BoxNovel
+import com.example.webnovelreader.websitesimport.NovelAll
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -32,12 +34,14 @@ import java.net.Socket
 
 
 class GalleryFragment : Fragment() {
+
     private lateinit var galleryViewModel: GalleryViewModel
     private lateinit var bookCovers: ArrayList<BookCover?>
     private lateinit var loadMoreItemsCells: ArrayList<Int?>
     private lateinit var adapterGrid: RecyclerViewAdapter
     private lateinit var scrollListener: RecyclerViewLoadMoreScroll
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
+    private var Source: WebSite = NovelAll()
     private var curr_page = 2
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
@@ -89,7 +93,9 @@ class GalleryFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
+        if(arguments?.getSerializable("SourceObject") != null ){
+            Source = arguments?.getSerializable("SourceObject") as WebSite
+        }
         val root = inflater.inflate(R.layout.fragment_gallery, container, false)
 
         hasInternetConnection().subscribe { hasInternet ->
@@ -117,7 +123,7 @@ class GalleryFragment : Fragment() {
     }
 
     private fun setItemsData() {
-        bookCovers = ArrayList(BoxNovel().scrapeLatestUpdates((1).toString()))
+        bookCovers = ArrayList(Source!!.scrapeLatestUpdates((1).toString()))
     }
 
     private fun setAdapter() {
@@ -168,7 +174,7 @@ class GalleryFragment : Fragment() {
         //If you remove it, the data will load so fast that you can't even see the LoadingView
         Handler().postDelayed({
             //Create the loadMoreItemsCells Arraylist
-            var loadMoreBookCovers = ArrayList(BoxNovel().scrapeLatestUpdates((curr_page++).toString()))
+            var loadMoreBookCovers = ArrayList(Source!!.scrapeLatestUpdates((curr_page++).toString()))
             //Remove the Loading View
             adapterGrid.removeLoadingView()
             //We adding the data to our main ArrayList
