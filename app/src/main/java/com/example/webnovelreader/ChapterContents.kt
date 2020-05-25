@@ -11,22 +11,19 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.lifecycleScope
 import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment
 import com.example.webnovelreader.websites.BoxNovel
-import kotlinx.android.synthetic.main.activity_textchanging.*
+import kotlinx.android.synthetic.main.activity_chaptercontents.*
 import kotlinx.android.synthetic.main.novel_apperance_settings.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 
-class TextChanging : AppCompatActivity() {
+class ChapterContents : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_textchanging)
+        setContentView(R.layout.activity_chaptercontents)
         setSupportActionBar(findViewById(R.id.readertoolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -49,15 +46,15 @@ class TextChanging : AppCompatActivity() {
         val boxNovel = BoxNovel()
         val chapter = boxNovel.scrapeChapter(chapterUrl)
         anytext.text = chapter.content
-        this@TextChanging.supportActionBar?.title = chapter.chapterTitle
+        this@ChapterContents.supportActionBar?.title = chapter.chapterTitle
 
         //create the swiping interaction with the users
-        swipingbox.setOnTouchListener(object : OnSwipeTouchListener(this@TextChanging){
+        swipingbox.setOnTouchListener(object : OnSwipeTouchListener(this@ChapterContents){
             override fun onSwipeRight() {
                 super.onSwipeRight()
                 d("nick", "you swiped right")
                 finish()
-                val intent = Intent(this@TextChanging, TextChanging::class.java)
+                val intent = Intent(this@ChapterContents, ChapterContents::class.java)
                 intent.putExtra("chapter_url",chapter.prevChapter)
 
                 startActivity(intent)
@@ -67,7 +64,7 @@ class TextChanging : AppCompatActivity() {
                 super.onSwipeLeft()
                 d("nick", "you swiped left")
                 finish()
-                val intent = Intent(this@TextChanging, TextChanging::class.java)
+                val intent = Intent(this@ChapterContents, ChapterContents::class.java)
                 intent.putExtra("chapter_url",chapter.nextChapter)
                 startActivity(intent)
             }

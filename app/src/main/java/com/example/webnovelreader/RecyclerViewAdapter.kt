@@ -117,7 +117,7 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>, Site:WebSite)
             holder.itemView.setOnClickListener {
                 val intent = Intent(this.context, ChapterList::class.java)
                 intent.putExtras(bundleOf(
-                    Pair("SourceObject", Source), Pair("bookUrl", bookCover?.bookUrl)
+                    Pair("SourceObject", Source), Pair("bookUrl", bookCover?.bookUrl), Pair("bookCover", bmp)
                 ))
                 context.startActivity(intent)
             }
