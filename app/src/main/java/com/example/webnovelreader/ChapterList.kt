@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.webnovelreader.interfaces.WebSite
 import com.example.webnovelreader.websites.BoxNovel
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -65,7 +66,7 @@ class ChapterList : AppCompatActivity() {
         hasInternetConnection().subscribe { hasInternet ->
             if (hasInternet) {
 
-                val boxNovel = BoxNovel()
+                val boxNovel = intent.extras?.getSerializable("SourceObject") as WebSite
                 val book =
                     boxNovel.scrapeBook(intent.getStringExtra("bookUrl"))
                     val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)

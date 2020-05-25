@@ -28,6 +28,8 @@ class TextChanging : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_textchanging)
         setSupportActionBar(findViewById(R.id.readertoolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
         val sharedPref = getSharedPreferences("settings", Context.MODE_PRIVATE)
         anytext.textSize = sharedPref.getInt("text_size", 14).toFloat()
         anytext.typeface = resources.getFont(sharedPref.getInt("font", R.font.open_sans))
@@ -72,6 +74,10 @@ class TextChanging : AppCompatActivity() {
         })
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
     open class OnSwipeTouchListener(ctx: Context?) : View.OnTouchListener {
         private val gestureDetector: GestureDetector = GestureDetector(ctx, GestureListener())
 

@@ -36,7 +36,7 @@ class SlideshowFragment : Fragment() {
         }
         source2.setOnClickListener {
             sourceBundle.putSerializable("SourceObject", NovelAll())
-            navController.navigate(R.id.nav_gallery,sourceBundle)
+            navController.navigate(R.id.nav_gallery, sourceBundle)
         }
         return root
     }

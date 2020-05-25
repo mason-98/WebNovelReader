@@ -16,16 +16,19 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.example.webnovelreader.interfaces.BookCover
+import com.example.webnovelreader.interfaces.WebSite
 import kotlinx.android.synthetic.main.book_cover_details.view.*
 import java.net.URL
 
 
-class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
+class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>, Site:WebSite)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var bookCoverList : MutableList<BookCover?> = mutableListOf()
     lateinit var context: Context
+    private var Source: WebSite = Site
 
     val VIEW_TYPE_ITEM = 0
     val VIEW_TYPE_LOADING = 1
@@ -110,9 +113,12 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
             holder.itemView.grid_image.setImageBitmap(bmp)
             holder.itemView.layoutParams.height = WRAP_CONTENT
             holder.itemView.layoutParams.width = WRAP_CONTENT
+
             holder.itemView.setOnClickListener {
                 val intent = Intent(this.context, ChapterList::class.java)
-                intent.putExtra("bookUrl", bookCover?.bookUrl)
+                intent.putExtras(bundleOf(
+                    Pair("SourceObject", Source), Pair("bookUrl", bookCover?.bookUrl)
+                ))
                 context.startActivity(intent)
             }
         }

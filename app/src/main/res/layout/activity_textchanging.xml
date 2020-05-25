@@ -20,12 +20,15 @@
 
         <ImageButton
             android:id="@+id/readersettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            app:srcCompat="@android:drawable/ic_menu_manage"
-            tools:layout_editor_absoluteX="344dp"
-            tools:layout_editor_absoluteY="2dp" />
+            app:layout_constraintBottom_toBottomOf="@+id/readertoolbar"
+            app:layout_constraintStart_toStartOf="@+id/readertoolbar"
+            app:layout_constraintTop_toTopOf="@+id/readertoolbar"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@android:drawable/ic_menu_manage" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
