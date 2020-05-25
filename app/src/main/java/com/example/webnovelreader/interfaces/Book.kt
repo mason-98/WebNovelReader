@@ -9,5 +9,5 @@ interface Book {
     var lastReadChapter: Chapter
     var lastOpened: LocalDate
     var url: String
-
+    var source: String
 }

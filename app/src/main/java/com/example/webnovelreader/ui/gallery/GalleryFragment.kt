@@ -42,7 +42,7 @@ class GalleryFragment : Fragment() {
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
 
-    public class GridSpacingItemDecoration(spanCount:Int, spacing:Int) : RecyclerView.ItemDecoration() {
+    class GridSpacingItemDecoration(spanCount:Int, spacing:Int) : RecyclerView.ItemDecoration() {
         private var spanCount = spanCount
         private var spacing = spacing
 
@@ -117,7 +117,9 @@ class GalleryFragment : Fragment() {
     }
 
     private fun setItemsData() {
-        bookCovers = ArrayList(BoxNovel().scrapeLatestUpdates((1).toString()))
+        this.context?.let{
+            bookCovers = ArrayList(BoxNovel().scrapeLatestUpdates((1).toString(),it))
+        }
     }
 
     private fun setAdapter() {
@@ -168,11 +170,14 @@ class GalleryFragment : Fragment() {
         //If you remove it, the data will load so fast that you can't even see the LoadingView
         Handler().postDelayed({
             //Create the loadMoreItemsCells Arraylist
-            var loadMoreBookCovers = ArrayList(BoxNovel().scrapeLatestUpdates((curr_page++).toString()))
             //Remove the Loading View
             adapterGrid.removeLoadingView()
-            //We adding the data to our main ArrayList
-            adapterGrid.addData(loadMoreBookCovers)
+
+            this.context?.let{
+                var loadMoreBookCovers = ArrayList(BoxNovel().scrapeLatestUpdates((curr_page++).toString(),it))
+                //We adding the data to our main ArrayList
+                adapterGrid.addData(loadMoreBookCovers)
+            }
             //Change the boolean isLoading to false
             scrollListener.setLoaded()
             //Update the recyclerView in the main thread

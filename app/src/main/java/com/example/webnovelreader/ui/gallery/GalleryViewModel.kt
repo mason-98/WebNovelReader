@@ -9,18 +9,4 @@ import java.lang.Exception
 
 class GalleryViewModel : ViewModel() {
 
-    private var _bookCovers = MutableLiveData<MutableList<BookCover>>().apply {
-        value= arrayListOf()
-        value?.addAll(BoxNovel().scrapeLatestUpdates(_page.toString()))
-    }
-
-    private var _page = 1
-
-    fun addBookCovers(curr_page: Int){
-        _page += curr_page
-        _bookCovers.value?.addAll(BoxNovel().scrapeLatestUpdates(_page.toString()))
-        bookCovers = _bookCovers
-    }
-
-    var bookCovers: LiveData<MutableList<BookCover>> = _bookCovers
 }
