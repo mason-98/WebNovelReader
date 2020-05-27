@@ -66,15 +66,23 @@ class ChapterList : AppCompatActivity() {
         hasInternetConnection().subscribe { hasInternet ->
             if (hasInternet) {
 
+                //Grab the information of the book selected
                 val boxNovel = intent.extras?.getSerializable("SourceObject") as WebSite
                 val book =
                     boxNovel.scrapeBook(intent.getStringExtra("bookUrl"))
                 val cover = intent.extras?.getParcelable<Bitmap>("bookCover") as Bitmap
+
                 val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)
                 appbar.title = book.title
+
                 val background = findViewById<ImageView>(R.id.coverBackground)
                 background.setImageBitmap(cover)
                 background.scaleType = ImageView.ScaleType.FIT_END
+                //fill in author title and chapter numbers
+                findViewById<TextView>(R.id.author).append(book.author)
+                findViewById<TextView>(R.id.chapterNumber).append(book.chapterList.size.toString())
+
+                //list each chapter and a corresponding onclick action
                 val chapterListings = findViewById<LinearLayout>(R.id.chapterListings2)
                     for (chapterNumber in book.chapterList) {
                         val chapter = TextView(this@ChapterList)

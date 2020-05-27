@@ -45,6 +45,27 @@
             app:title="@string/title_activity_chapter_list"
             app:toolbarId="@+id/toolbar">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:id="@+id/author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Author: " />
+
+                <TextView
+                    android:id="@+id/chapterNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/author"
+                    android:text="# of Chapters: " />
+            </RelativeLayout>
+
             <ImageView
                 android:id="@+id/coverBackground"
                 android:layout_width="match_parent"
