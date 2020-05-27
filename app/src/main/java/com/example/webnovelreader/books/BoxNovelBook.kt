@@ -22,6 +22,6 @@ class BoxNovelBook(title: String,
         set(value) {this.lastOpened = value}
     override var url: String = url
         set(url) {this.url=url}
-
+    override var source: String = "BoxNovel"
 
 }

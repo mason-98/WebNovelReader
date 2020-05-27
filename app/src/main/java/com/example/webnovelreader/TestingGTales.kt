@@ -2,9 +2,11 @@ package com.example.webnovelreader
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+
 import android.widget.TextView
 import com.example.webnovelreader.websites.BoxNovel
 import com.example.webnovelreader.websitesimport.NovelAll
+
 
 
 class TestingGTales : AppCompatActivity() {

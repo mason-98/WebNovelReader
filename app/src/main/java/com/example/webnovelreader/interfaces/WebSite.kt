@@ -1,5 +1,6 @@
 package com.example.webnovelreader.interfaces
 
+import android.content.Context
 import com.example.webnovelreader.books.BoxNovelBook
 
 interface WebSite {
@@ -7,7 +8,7 @@ interface WebSite {
     val latestUpdateExt: String
 
 
-    fun scrapeLatestUpdates(page: String) : List<BookCover>
+    fun scrapeLatestUpdates(page: String, context:Context) : List<BookCover>
     fun scrapeBook(bookUrl: String): Book
     fun scrapeChapter(chapterURL: String, chapterTitle: String = "") : Chapter
     fun scrapeChapterList(bookUrl: String): List<Chapter>
