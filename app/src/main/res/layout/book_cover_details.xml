@@ -4,32 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="300dp"
     android:id="@+id/bookCoverHolder">
-<!--    <ImageView-->
-<!--        android:id="@+id/grid_image"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:scaleType="fitCenter"/>-->
 
-
-<!--    <TextView-->
-<!--        android:id="@+id/grid_text"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/grid_image"-->
-<!--        android:layout_marginTop="15dp"-->
-<!--        android:ellipsize="end"-->
-<!--        android:gravity="center_horizontal"-->
-<!--        android:maxLines="1"-->
-<!--        android:singleLine="true"-->
-<!--        android:textColor="#FFFFFF"-->
-<!--        android:textSize="11sp" />-->
 
     <androidx.cardview.widget.CardView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
-        android:background="@drawable/triangle"
         app:cardBackgroundColor="#4D000000"
         app:cardCornerRadius="4dp"
         app:cardElevation="1dp">
@@ -41,13 +22,16 @@
             android:id="@+id/grid_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="Book Cover Image"
             android:scaleType="fitCenter" />
 
         <ImageView
             android:id="@+id/inLibrary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|top"
+            android:layout_gravity="top|end"
+            android:contentDescription="Indicator showing if its in library or not"
+            android:focusableInTouchMode="false"
             app:srcCompat="@drawable/ic_bookmarked" />
 
         <TextView
@@ -63,9 +47,8 @@
             android:paddingBottom="5dp"
             android:shadowColor="#0D000000"
             android:singleLine="false"
-            android:text="t"
             android:textColor="#FFFFFF"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
 
     </androidx.cardview.widget.CardView>
