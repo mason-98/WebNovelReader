@@ -5,6 +5,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.os.AsyncTask
 import android.os.Handler
 import android.util.Log.d
@@ -17,6 +20,8 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.example.webnovelreader.interfaces.BookCover
@@ -113,10 +118,9 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>, Site:WebSite)
             holder.itemView.grid_image.scaleType = ImageView.ScaleType.FIT_XY
             holder.itemView.grid_image.layoutParams.width = 300
             holder.itemView.grid_image.setImageBitmap(bmp)
-            holder.itemView.grid_text.height = 300
+            holder.itemView.grid_text.height = 150
             holder.itemView.layoutParams.height = WRAP_CONTENT
             holder.itemView.layoutParams.width = WRAP_CONTENT
-
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(this.context, ChapterList::class.java)

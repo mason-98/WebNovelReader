@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="300dp"
     android:id="@+id/bookCoverHolder">
 <!--    <ImageView-->
@@ -28,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
+        android:background="@drawable/triangle"
         app:cardBackgroundColor="#4D000000"
         app:cardCornerRadius="4dp"
         app:cardElevation="1dp">
@@ -40,6 +42,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/inLibrary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/black_overlay"
+            android:gravity="right|top"
+            android:padding="3dp"
+            android:text="READING"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/grid_text"

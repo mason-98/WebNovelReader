@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment
+import com.example.webnovelreader.interfaces.WebSite
 import com.example.webnovelreader.websites.BoxNovel
 import kotlinx.android.synthetic.main.activity_chaptercontents.*
 import kotlinx.android.synthetic.main.novel_apperance_settings.*
@@ -43,8 +44,8 @@ class ChapterContents : AppCompatActivity() {
 
 
         //create a boxnovel object to scrape the chapter details
-        val boxNovel = BoxNovel()
-        val chapter = boxNovel.scrapeChapter(chapterUrl)
+        val NovelSource = intent.extras?.getSerializable("SourceObject") as WebSite
+        val chapter = NovelSource.scrapeChapter(chapterUrl)
         anytext.text = chapter.content
         this@ChapterContents.supportActionBar?.title = chapter.chapterTitle
 

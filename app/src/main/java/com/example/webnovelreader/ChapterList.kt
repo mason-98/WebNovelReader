@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import com.example.webnovelreader.interfaces.WebSite
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -67,9 +68,9 @@ class ChapterList : AppCompatActivity() {
             if (hasInternet) {
 
                 //Grab the information of the book selected
-                val boxNovel = intent.extras?.getSerializable("SourceObject") as WebSite
+                val NovelSource = intent.extras?.getSerializable("SourceObject") as WebSite
                 val book =
-                    boxNovel.scrapeBook(intent.getStringExtra("bookUrl"))
+                    NovelSource.scrapeBook(intent.getStringExtra("bookUrl"))
                 val cover = intent.extras?.getParcelable<Bitmap>("bookCover") as Bitmap
 
                 val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)
@@ -93,6 +94,7 @@ class ChapterList : AppCompatActivity() {
                             val intent = Intent(this@ChapterList, ChapterContents::class.java)
                             intent.putExtra("chapter_url", chapterNumber.url)
                             intent.putExtra("chapter_title", chapterNumber.chapterTitle)
+                            intent.putExtras(bundleOf(Pair("SourceObject", NovelSource)))
                             startActivity(intent)
                         }
                         chapterListings.addView(chapter)
