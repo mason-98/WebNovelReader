@@ -150,10 +150,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun getBookmarkedBooks(context: Context): ArrayList<BookCover?> {
-            val dbHelper = DatabaseHelper(context)
-            val db = dbHelper?.readableDatabase
-            var cursor = db.rawQuery("SELECT * FROM Book WHERE bookmarked = 1 ORDER BY book_name ASC", null)
-            var bookcovers = ArrayList<BookCover?>()
+        val dbHelper = DatabaseHelper(context)
+        val db = dbHelper?.readableDatabase
+        var cursor = db.rawQuery("SELECT * FROM Book WHERE bookmarked = 1 ORDER BY book_name ASC", null)
+        var bookcovers = ArrayList<BookCover?>()
             while(cursor.moveToNext()){
                 var book_cover : BookCover
                 if(cursor.getString(cursor.getColumnIndex("book_source"))=="BoxNovel"){
@@ -169,7 +169,10 @@ class HomeFragment : Fragment() {
                 }
                 bookcovers.add(book_cover)
             }
-            return bookcovers
+        cursor.close()
+        db.close()
+        dbHelper.close()
+        return bookcovers
     }
 
 

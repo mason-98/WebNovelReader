@@ -77,6 +77,7 @@ class ChapterList : AppCompatActivity() {
             }
         }
         cursor.close()
+        db.close()
         dbHelper.close()
         bookmarkButton.setOnClickListener {
             val dbHelper = DatabaseHelper(this.baseContext)
@@ -95,6 +96,7 @@ class ChapterList : AppCompatActivity() {
             }
             db.update("Book", cv, "book_url = '$bookUrl'", null)
             cursor.close()
+            db.close()
             dbHelper.close()
         }
 
@@ -103,9 +105,9 @@ class ChapterList : AppCompatActivity() {
             if (hasInternet) {
 
                 //Grab the information of the book selected
-                val boxNovel = intent.extras?.getSerializable("SourceObject") as WebSite
+                val website = intent.extras?.getSerializable("SourceObject") as WebSite
                 val book =
-                    boxNovel.scrapeBook(bookUrl)
+                    website.scrapeBook(bookUrl)
                 val cover = intent.extras?.getParcelable<Bitmap>("bookCover") as Bitmap
 
                 val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)
