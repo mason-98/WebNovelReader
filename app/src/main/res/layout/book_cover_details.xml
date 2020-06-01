@@ -63,6 +63,7 @@
             android:paddingBottom="5dp"
             android:shadowColor="#0D000000"
             android:singleLine="false"
+            android:text="t"
             android:textColor="#FFFFFF"
             android:textSize="11sp" />
 
