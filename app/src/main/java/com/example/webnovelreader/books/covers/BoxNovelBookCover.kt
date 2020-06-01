@@ -1,6 +1,8 @@
 package com.example.webnovelreader.books.covers
 
 import com.example.webnovelreader.interfaces.BookCover
+import com.example.webnovelreader.interfaces.WebSite
+import com.example.webnovelreader.websites.BoxNovel
 
 class BoxNovelBookCover(bookCoverUrl :String,
                         bookTitle: String,
@@ -11,4 +13,5 @@ class BoxNovelBookCover(bookCoverUrl :String,
         set(value) {this.bookTitle = value}
     override var bookUrl: String = bookUrl
         set(value) {this.bookUrl = value}
+    override var source: WebSite = BoxNovel()
 }

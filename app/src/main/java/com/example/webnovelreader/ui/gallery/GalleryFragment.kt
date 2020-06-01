@@ -131,9 +131,8 @@ class GalleryFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        adapterGrid = RecyclerViewAdapter(bookCovers, Source)
+        adapterGrid = RecyclerViewAdapter(bookCovers)
         adapterGrid.notifyDataSetChanged()
-        bookCoverRecyclerView.adapter = adapterGrid
     }
 
     private fun setRVLayoutManager() {

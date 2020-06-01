@@ -1,8 +1,10 @@
 package com.example.webnovelreader
 
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +13,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import com.example.webnovelreader.database.DatabaseHelper
 import com.example.webnovelreader.interfaces.WebSite
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -62,15 +65,50 @@ class ChapterList : AppCompatActivity() {
                 cl.addView(views.get(x),0)
             }
         }
+        val dbHelper = DatabaseHelper(this.baseContext)
+        val db = dbHelper.readableDatabase
+        val bookUrl = intent.getStringExtra("bookUrl")
+        var cursor = db.rawQuery("SELECT bookmarked FROM Book WHERE book_url = '$bookUrl'", null)
+        if (cursor.count != 0) {
+            cursor.moveToFirst()
+            if (cursor.getInt( cursor.getColumnIndex("bookmarked")) ==  1){
+                bookmarkButton.text="Unbookmark Novel"
+                var imgResource = R.drawable.ic_bookmarked
+                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(imgResource, 0, 0, 0)
+            }
+        }
+        cursor.close()
+        db.close()
+        dbHelper.close()
+        bookmarkButton.setOnClickListener {
+            val dbHelper = DatabaseHelper(this.baseContext)
+            val db = dbHelper.writableDatabase
+            var cv = ContentValues()
+            if(bookmarkButton.text=="Bookmark Novel"){
+                bookmarkButton.text="Unbookmark Novel"
+                var imgResource = R.drawable.ic_bookmarked
+                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(imgResource, 0, 0, 0)
+                cv.put("bookmarked", 1)
+            } else {
+                bookmarkButton.text="Bookmark Novel"
+                var imgResource = R.drawable.ic_not_bookmarked
+                bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(imgResource, 0, 0, 0)
+                cv.put("bookmarked", 0)
+            }
+            db.update("Book", cv, "book_url = '$bookUrl'", null)
+            cursor.close()
+            db.close()
+            dbHelper.close()
+        }
 
         progressbarholder.visibility = View.VISIBLE
         hasInternetConnection().subscribe { hasInternet ->
             if (hasInternet) {
 
                 //Grab the information of the book selected
-                val NovelSource = intent.extras?.getSerializable("SourceObject") as WebSite
+                val website = intent.extras?.getSerializable("SourceObject") as WebSite
                 val book =
-                    NovelSource.scrapeBook(intent.getStringExtra("bookUrl"))
+                    website.scrapeBook(bookUrl)
                 val cover = intent.extras?.getParcelable<Bitmap>("bookCover") as Bitmap
 
                 val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)
@@ -94,7 +132,7 @@ class ChapterList : AppCompatActivity() {
                             val intent = Intent(this@ChapterList, ChapterContents::class.java)
                             intent.putExtra("chapter_url", chapterNumber.url)
                             intent.putExtra("chapter_title", chapterNumber.chapterTitle)
-                            intent.putExtras(bundleOf(Pair("SourceObject", NovelSource)))
+                            intent.putExtras(bundleOf(Pair("SourceObject", website)))
                             startActivity(intent)
                         }
                         chapterListings.addView(chapter)

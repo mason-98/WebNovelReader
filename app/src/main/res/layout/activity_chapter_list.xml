@@ -47,7 +47,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/author"
+
                     android:text="# of Chapters: " />
+                <Button
+                    android:id="@+id/bookmarkButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chapterNumber"
+                    android:drawableLeft="@drawable/ic_not_bookmarked"
+                    android:text="Bookmark Novel"
+                    android:layout_marginLeft="-3.5dp"
+                    android:textAllCaps="false"
+                    android:tint="#FFFFFF"
+                    tools:ignore="VectorDrawableCompat" />
+
 
             </RelativeLayout>
 

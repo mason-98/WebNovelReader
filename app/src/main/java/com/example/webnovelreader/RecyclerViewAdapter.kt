@@ -30,11 +30,10 @@ import kotlinx.android.synthetic.main.book_cover_details.view.*
 import java.net.URL
 
 
-class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>, Site:WebSite)
+class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var bookCoverList : MutableList<BookCover?> = mutableListOf()
     lateinit var context: Context
-    private var Source: WebSite = Site
 
     val VIEW_TYPE_ITEM = 0
     val VIEW_TYPE_LOADING = 1
@@ -125,10 +124,31 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>, Site:WebSite)
             holder.itemView.setOnClickListener {
                 val intent = Intent(this.context, ChapterList::class.java)
                 intent.putExtras(bundleOf(
-                    Pair("SourceObject", Source), Pair("bookUrl", bookCover?.bookUrl), Pair("bookCover", bmp)
+                    Pair("SourceObject", bookCover?.source), Pair("bookUrl", bookCover?.bookUrl), Pair("bookCover", bmp)
                 ))
                 context.startActivity(intent)
             }
+            //            holder.itemView.setOnLongClickListener {
+//                val dbHelper = DatabaseHelper(context)
+//                val db = dbHelper.writableDatabase
+//                var cursor = db.rawQuery("SELECT bookmarked FROM Book WHERE book_url = '$bookCover?.bookUrl'", null)
+//                if (cursor.count != 0) {
+//                    cursor.moveToFirst()
+//                    var cv = ContentValues()
+//                    if (cursor.getInt( cursor.getColumnIndex("id")) == 0){
+//                        cv.put("bookmarked", 1)
+//                        holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+//                    } else {
+//                        cv.put("bookmarked", 0)
+//                        holder.itemView.grid_text.text = bookCover?.bookTitle?.toUpperCase()
+//                    }
+//                    db.update("Book", cv, "book_url = " + bookCover?.bookUrl, null)
+//                    true
+//                }
+//                cursor.close()
+//                dbHelper.close()
+//                false
+//            }
         }
     }
 
