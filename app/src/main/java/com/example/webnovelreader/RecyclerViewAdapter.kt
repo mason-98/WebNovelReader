@@ -70,8 +70,14 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
         }
     }
 
-    fun addData(dataViews: ArrayList<BookCover>) {
+    fun addData(dataViews: ArrayList<BookCover?>) {
         this.bookCoverList.addAll(dataViews)
+        notifyDataSetChanged()
+    }
+
+    fun setData(bookCovers: ArrayList<BookCover?>){
+        this.bookCoverList.clear()
+        this.bookCoverList.addAll(bookCovers)
         notifyDataSetChanged()
     }
 

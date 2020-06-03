@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import com.example.webnovelreader.database.DatabaseHelper
 import com.example.webnovelreader.interfaces.WebSite
+import com.example.webnovelreader.ui.home.HomeFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -148,6 +149,11 @@ class ChapterList : AppCompatActivity() {
                 t.show()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        HomeFragment.adapterGrid.setData(HomeFragment.getBookmarkedBooks(this.baseContext))
+        super.onBackPressed()
     }
 }
 

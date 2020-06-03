@@ -4,32 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.GridView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.webnovelreader.R
 import com.example.webnovelreader.RecyclerViewAdapter
-import com.example.webnovelreader.RecyclerViewLoadMoreScroll
-import com.example.webnovelreader.TestingGTales
 import com.example.webnovelreader.books.covers.BoxNovelBookCover
 import com.example.webnovelreader.books.covers.NovelAllBookCover
 import com.example.webnovelreader.database.DatabaseHelper
-import com.example.webnovelreader.interfaces.Book
 import com.example.webnovelreader.interfaces.BookCover
-import com.example.webnovelreader.interfaces.OnLoadMoreListener
-import com.example.webnovelreader.interfaces.WebSite
-import com.example.webnovelreader.websitesimport.NovelAll
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -42,7 +29,35 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var bookCovers: ArrayList<BookCover?>
-    private lateinit var adapterGrid: RecyclerViewAdapter
+    companion object {
+        @JvmStatic lateinit var adapterGrid: RecyclerViewAdapter
+        @JvmStatic
+        fun getBookmarkedBooks(context: Context): ArrayList<BookCover?> {
+            val dbHelper = DatabaseHelper(context)
+            val db = dbHelper?.readableDatabase
+            var cursor = db.rawQuery("SELECT * FROM Book WHERE bookmarked = 1 ORDER BY book_name ASC", null)
+            var bookcovers = ArrayList<BookCover?>()
+            while(cursor.moveToNext()){
+                var book_cover : BookCover
+                if(cursor.getString(cursor.getColumnIndex("book_source"))=="BoxNovel"){
+                    book_cover = BoxNovelBookCover(
+                        cursor.getString(cursor.getColumnIndex("book_image_source")),
+                        cursor.getString(cursor.getColumnIndex("book_name")),
+                        cursor.getString(cursor.getColumnIndex("book_url")))
+                } else {
+                    book_cover = NovelAllBookCover(
+                        cursor.getString(cursor.getColumnIndex("book_image_source")),
+                        cursor.getString(cursor.getColumnIndex("book_name")),
+                        cursor.getString(cursor.getColumnIndex("book_url")))
+                }
+                bookcovers.add(book_cover)
+            }
+            cursor.close()
+            db.close()
+            dbHelper.close()
+            return bookcovers
+        }
+    }
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
@@ -119,7 +134,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setItemsData() {
-
         this.context?.let{
             bookCovers = getBookmarkedBooks(it)
         }
@@ -147,32 +161,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun getBookmarkedBooks(context: Context): ArrayList<BookCover?> {
-        val dbHelper = DatabaseHelper(context)
-        val db = dbHelper?.readableDatabase
-        var cursor = db.rawQuery("SELECT * FROM Book WHERE bookmarked = 1 ORDER BY book_name ASC", null)
-        var bookcovers = ArrayList<BookCover?>()
-            while(cursor.moveToNext()){
-                var book_cover : BookCover
-                if(cursor.getString(cursor.getColumnIndex("book_source"))=="BoxNovel"){
-                    book_cover = BoxNovelBookCover(
-                        cursor.getString(cursor.getColumnIndex("book_image_source")),
-                        cursor.getString(cursor.getColumnIndex("book_name")),
-                        cursor.getString(cursor.getColumnIndex("book_url")))
-                } else {
-                    book_cover = NovelAllBookCover(
-                        cursor.getString(cursor.getColumnIndex("book_image_source")),
-                        cursor.getString(cursor.getColumnIndex("book_name")),
-                        cursor.getString(cursor.getColumnIndex("book_url")))
-                }
-                bookcovers.add(book_cover)
-            }
-        cursor.close()
-        db.close()
-        dbHelper.close()
-        return bookcovers
     }
 
 
