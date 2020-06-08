@@ -1,7 +1,6 @@
-package com.example.webnovelreader.ui.home
+package com.example.webnovelreader.ui.Library
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,9 +24,9 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 
-class HomeFragment : Fragment() {
+class LibraryFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var homeViewModel: LibraryViewModel
     private lateinit var bookCovers: ArrayList<BookCover?>
     companion object {
         @JvmStatic lateinit var adapterGrid: RecyclerViewAdapter

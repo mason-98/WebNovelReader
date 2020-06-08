@@ -14,7 +14,10 @@ import java.io.Serializable
 
 
 class NovelAll (override val baseURL: String = "https://www.novelall.com/",
-                override val latestUpdateExt: String = "list/New-Update/") : WebSite, Serializable {
+                override val latestUpdateExt: String = "list/New-Update/",
+                override val directoryExt: String = "category/index_",
+                override val sourceName: String = "NovelAll"
+                ) : WebSite, Serializable {
 
     private class JSoupGetUrl : AsyncTask<String, Void, Document>(){
         override fun doInBackground(vararg params: String): Document {
@@ -52,11 +55,16 @@ class NovelAll (override val baseURL: String = "https://www.novelall.com/",
         }
     }
 
-    override fun scrapeLatestUpdates(page: String,context: Context) : List<BookCover> {
+    override fun scrapeLatestUpdates(page: String,context: Context,allNovels: Boolean) : List<BookCover> {
         val dbHelper = DatabaseHelper(context)
         val db = dbHelper.writableDatabase
+
         try{
-            val url = baseURL + latestUpdateExt
+            val url = if (allNovels) {
+                baseURL + directoryExt + page
+            } else {
+                baseURL + latestUpdateExt
+            }
             val bookCovers: List<BookCover>
             val doc = JSoupGetUrl().execute(url).get()
             val bookCoversHtml = doc.select("div.main-content li")

@@ -15,7 +15,10 @@ import java.io.Serializable
 import java.lang.Exception
 
 class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
-               override val latestUpdateExt: String = "page/") : WebSite, Serializable {
+               override val latestUpdateExt: String = "page/",
+               override val directoryExt: String = "novel/",
+                override val sourceName: String = "BoxNovel"
+) : WebSite, Serializable {
 
     private class JSoupGetUrl : AsyncTask<String, Void, Document>(){
         override fun doInBackground(vararg params: String): Document {
@@ -60,11 +63,14 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         }
     }
 
-    override fun scrapeLatestUpdates(page: String, context: Context) : List<BookCover> {
+    override fun scrapeLatestUpdates(page: String, context: Context, allNovel: Boolean) : List<BookCover> {
         val dbHelper = DatabaseHelper(context)
         val db = dbHelper.writableDatabase
         try{
-            val url = baseURL + latestUpdateExt + page
+            val url = if(allNovel) {baseURL + directoryExt + latestUpdateExt + page}
+            else {
+                baseURL + latestUpdateExt + page
+            }
             val bookCovers: List<BookCover>
             val doc = JSoupGetUrl().execute(url).get()
             val bookCoversHtml = doc.select("div.page-content-listing div.page-item-detail")

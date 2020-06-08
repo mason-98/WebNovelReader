@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.webnovelreader.MainActivity
 import com.example.webnovelreader.R
 import com.example.webnovelreader.RecyclerViewAdapter
 import com.example.webnovelreader.RecyclerViewLoadMoreScroll
@@ -27,6 +28,7 @@ import com.example.webnovelreader.websitesimport.NovelAll
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import java.io.IOException
 import java.net.InetSocketAddress
@@ -42,6 +44,7 @@ class GalleryFragment : Fragment() {
     private lateinit var scrollListener: RecyclerViewLoadMoreScroll
     private lateinit var mLayoutManager: RecyclerView.LayoutManager
     private var Source: WebSite = NovelAll()
+    private var allNovels: Boolean = true
     private var curr_page = 2
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
@@ -88,6 +91,10 @@ class GalleryFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    override fun onStart() {
+        super.onStart()
+        (activity as MainActivity).toolbar.title = Source.sourceName
+    }
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -95,6 +102,7 @@ class GalleryFragment : Fragment() {
     ): View? {
         if(arguments?.getSerializable("SourceObject") != null ){
             Source = arguments?.getSerializable("SourceObject") as WebSite
+            allNovels = arguments?.getBoolean("allNovels") as Boolean
         }
         val root = inflater.inflate(R.layout.fragment_gallery, container, false)
 
@@ -125,7 +133,7 @@ class GalleryFragment : Fragment() {
     private fun setItemsData() {
 
         this.context?.let{
-            bookCovers = ArrayList(Source.scrapeLatestUpdates((1).toString(),it))
+            bookCovers = ArrayList(Source.scrapeLatestUpdates((1).toString(),it,allNovels))
         }
 
     }
@@ -182,7 +190,7 @@ class GalleryFragment : Fragment() {
             adapterGrid.removeLoadingView()
 
             this.context?.let{
-                var loadMoreBookCovers = ArrayList(Source.scrapeLatestUpdates((curr_page++).toString(),it))
+                var loadMoreBookCovers = ArrayList(Source.scrapeLatestUpdates((curr_page++).toString(),it, allNovels))
                 //We adding the data to our main ArrayList
                 adapterGrid.addData(loadMoreBookCovers)
             }

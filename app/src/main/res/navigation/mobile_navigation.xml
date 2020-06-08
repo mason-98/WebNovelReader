@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.webnovelreader.ui.home.HomeFragment"
+        android:name="com.example.webnovelreader.ui.Library.LibraryFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
-        android:name="com.example.webnovelreader.ui.home.HomeSecondFragment"
+        android:name="com.example.webnovelreader.ui.Library.HomeSecondFragment"
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
@@ -32,12 +32,11 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.webnovelreader.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.webnovelreader.ui.slideshow.SourceList"
+        android:name="com.example.webnovelreader.ui.sourceList.SourceList"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_sourcelist" />
 </navigation>

@@ -3,9 +3,6 @@ package com.example.webnovelreader
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -15,8 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import com.example.webnovelreader.database.DatabaseHelper
 import com.example.webnovelreader.interfaces.WebSite
-import com.example.webnovelreader.ui.home.HomeFragment
-import com.google.android.material.appbar.AppBarLayout
+import com.example.webnovelreader.ui.Library.LibraryFragment
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
@@ -152,7 +148,7 @@ class ChapterList : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        HomeFragment.adapterGrid.setData(HomeFragment.getBookmarkedBooks(this.baseContext))
+        LibraryFragment.adapterGrid.setData(LibraryFragment.getBookmarkedBooks(this.baseContext))
         super.onBackPressed()
     }
 }

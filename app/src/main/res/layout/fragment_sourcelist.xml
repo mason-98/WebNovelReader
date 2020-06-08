@@ -5,28 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.slideshow.SourceList">
+    tools:context=".ui.sourceList.SourceList">
 
-    <TextView
-        android:id="@+id/source2"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="NovelAll"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <TextView
-        android:id="@+id/text_slideshow"
+        <TextView
+            android:id="@+id/source2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:text="NovelAll"
+            android:textAlignment="gravity"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/s2updates"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Latest"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="BoxNovel"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/source1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:text="BoxNovel"
+            android:textAlignment="gravity"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/s1updates"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Latest"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 </LinearLayout>
