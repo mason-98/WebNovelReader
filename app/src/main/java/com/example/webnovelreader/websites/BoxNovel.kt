@@ -67,7 +67,7 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         val dbHelper = DatabaseHelper(context)
         val db = dbHelper.writableDatabase
         try{
-            val url = if(allNovel) {baseURL + directoryExt + latestUpdateExt + page}
+            val url = if(allNovel) {baseURL + directoryExt + latestUpdateExt + page + "/?m_orderby=views"}
             else {
                 baseURL + latestUpdateExt + page
             }

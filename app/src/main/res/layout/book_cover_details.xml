@@ -32,6 +32,7 @@
             android:layout_gravity="top|end"
             android:contentDescription="Indicator showing if its in library or not"
             android:focusableInTouchMode="false"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_bookmarked" />
 
         <TextView

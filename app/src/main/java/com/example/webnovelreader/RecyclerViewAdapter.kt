@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.opengl.Visibility
 import android.os.AsyncTask
 import android.os.Handler
 import android.util.Log.d
@@ -24,6 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
+import com.example.webnovelreader.database.DatabaseHelper
 import com.example.webnovelreader.interfaces.BookCover
 import com.example.webnovelreader.interfaces.WebSite
 import kotlinx.android.synthetic.main.book_cover_details.view.*
@@ -32,8 +34,29 @@ import java.net.URL
 
 class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var bookCoverList : MutableList<BookCover?> = mutableListOf()
+    private var bookCoverList: MutableList<BookCover?> = mutableListOf()
     lateinit var context: Context
+    private lateinit var bookedmarkedBooks: ArrayList<String?>
+
+
+    private fun getBookmarkedBooksUrl(context:Context): ArrayList<String?> {
+        val dbHelper = DatabaseHelper(context)
+        val db = dbHelper?.readableDatabase
+        var cursor = db.rawQuery(
+            "SELECT book_url FROM Book WHERE bookmarked = 1 ORDER BY book_name ASC",
+            null
+        )
+        var bookurls = ArrayList<String?>()
+        while (cursor.moveToNext()) {
+            var bookurl:String  = cursor.getString(cursor.getColumnIndex("book_url"))
+            bookurls.add(bookurl)
+        }
+        cursor.close()
+        db.close()
+        dbHelper.close()
+        return bookurls
+    }
+
 
     val VIEW_TYPE_ITEM = 0
     val VIEW_TYPE_LOADING = 1
@@ -88,6 +111,7 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         context = parent.context
+        bookedmarkedBooks = getBookmarkedBooksUrl(context)
         return if (viewType == VIEW_TYPE_ITEM) {
             val view = LayoutInflater.from(context).inflate(R.layout.book_cover_details, parent, false)
             ItemViewHolder(view)
@@ -126,6 +150,11 @@ class RecyclerViewAdapter(bookCoverList: ArrayList<BookCover?>)
             holder.itemView.grid_text.height = 150
             holder.itemView.layoutParams.height = WRAP_CONTENT
             holder.itemView.layoutParams.width = WRAP_CONTENT
+            if(bookCover?.bookUrl in bookedmarkedBooks){
+                holder.itemView.inLibrary.visibility = View.VISIBLE
+            } else {
+                holder.itemView.inLibrary.visibility = View.GONE
+            }
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(this.context, ChapterList::class.java)

@@ -61,7 +61,7 @@ class NovelAll (override val baseURL: String = "https://www.novelall.com/",
 
         try{
             val url = if (allNovels) {
-                baseURL + directoryExt + page
+                baseURL + directoryExt + page + "?sort=views"
             } else {
                 baseURL + latestUpdateExt
             }
