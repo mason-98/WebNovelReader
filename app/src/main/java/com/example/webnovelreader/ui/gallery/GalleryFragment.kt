@@ -6,13 +6,16 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +51,7 @@ class GalleryFragment : Fragment() {
     private var curr_page = 2
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
+
 
     class GridSpacingItemDecoration(spanCount:Int, spacing:Int) : RecyclerView.ItemDecoration() {
         private var spanCount = spanCount
@@ -176,16 +180,9 @@ class GalleryFragment : Fragment() {
     private fun LoadMoreData() {
         //Add the Loading View
         adapterGrid.addLoadingView()
-
-        //Get the number of the current Items of the main Arraylist
-        val start = adapterGrid.itemCount
-        //Load 16 more items
-        val end = start + 16
         //Use Handler if the items are loading too fast.
         //If you remove it, the data will load so fast that you can't even see the LoadingView
         Handler().postDelayed({
-            //Create the loadMoreItemsCells Arraylist
-
             //Remove the Loading View
             adapterGrid.removeLoadingView()
 
@@ -197,8 +194,12 @@ class GalleryFragment : Fragment() {
             //Change the boolean isLoading to false
             scrollListener.setLoaded()
             //Update the recyclerView in the main thread
-            bookCoverRecyclerView.post {
-                adapterGrid.notifyDataSetChanged()
+            try {
+                bookCoverRecyclerView.post {
+                    adapterGrid.notifyDataSetChanged()
+                }
+            } catch (e:Exception) {
+                d("Mason", e.toString())
             }
         }, 3000)
 

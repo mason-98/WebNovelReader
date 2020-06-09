@@ -3,6 +3,7 @@ package com.example.webnovelreader
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -47,7 +48,6 @@ class ChapterList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chapter_list)
-        setSupportActionBar(toolbar)
 
 
         fab.setOnClickListener { _ ->
@@ -108,12 +108,12 @@ class ChapterList : AppCompatActivity() {
                     website.scrapeBook(bookUrl)
                 val cover = intent.extras?.getParcelable<Bitmap>("bookCover") as Bitmap
 
-                val appbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)
-                appbar.title = book.title
+                val title = findViewById<TextView>(R.id.chaptertitlepog)
+                title.text = book.title
 
                 val background = findViewById<ImageView>(R.id.coverBackground)
                 background.setImageBitmap(cover)
-                background.scaleType = ImageView.ScaleType.FIT_END
+                background.scaleType = ImageView.ScaleType.FIT_XY
                 //fill in author title and chapter numbers
                 findViewById<TextView>(R.id.author).append(book.author)
                 findViewById<TextView>(R.id.chapterNumber).append(book.chapterList.size.toString())

@@ -21,26 +21,28 @@
             android:layout_weight="0"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMargin="0dp"
-            app:expandedTitleMarginBottom="32dp"
+            app:expandedTitleMarginBottom="35dp"
             app:expandedTitleMarginStart="30dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="adsfadsfadfdsfasdfdsafdsafdsafdsfdasfasdfdsfdsdsfadskl"
+            app:titleEnabled="false"
             app:toolbarId="@+id/toolbar">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="?attr/actionBarSize"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp">
 
                 <TextView
                     android:id="@+id/author"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="Author: " />
+                    android:layout_below="@id/chaptertitlepog"
+                    android:layout_centerInParent="false"
+                    android:maxLines="2"
+                    android:text="Author:" />
 
                 <TextView
                     android:id="@+id/chapterNumber"
@@ -49,39 +51,48 @@
                     android:layout_below="@id/author"
 
                     android:text="# of Chapters: " />
+
                 <Button
                     android:id="@+id/bookmarkButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/chapterNumber"
+                    android:layout_marginLeft="-3.5dp"
                     android:drawableLeft="@drawable/ic_not_bookmarked"
                     android:text="Bookmark Novel"
-                    android:layout_marginLeft="-3.5dp"
                     android:textAllCaps="false"
                     android:tint="#FFFFFF"
                     tools:ignore="VectorDrawableCompat" />
 
+                <TextView
+                    android:id="@+id/chaptertitlepog"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:text="fdasfsdafdsfdsafsddsfadsfsdafdsafsad"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
 
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/coverBackground"
-                android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="end"
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="3dp"
                 android:layout_marginBottom="53dp"
-                android:adjustViewBounds="false"
-                android:cropToPadding="false" />
+                app:cardBackgroundColor="#00FFFFFF"
+                app:cardCornerRadius="4dp">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/PopupOverlay">
-
-            </androidx.appcompat.widget.Toolbar>
+                <ImageView
+                    android:id="@+id/coverBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="false" />
+            </androidx.cardview.widget.CardView>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
