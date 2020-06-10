@@ -2,8 +2,9 @@ package com.example.webnovelreader.interfaces
 
 import android.content.Context
 import com.example.webnovelreader.books.BoxNovelBook
+import java.io.Serializable
 
-interface WebSite {
+interface WebSite : Serializable {
     val baseURL: String
     val latestUpdateExt: String
     val directoryExt: String
