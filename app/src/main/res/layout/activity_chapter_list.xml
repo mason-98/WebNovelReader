@@ -81,6 +81,8 @@
                     android:layout_marginBottom="32dp"
                     android:drawableLeft="@drawable/ic_not_bookmarked"
                     android:gravity="bottom"
+                    android:paddingRight="3dp"
+                    android:paddingBottom="3dp"
                     android:text="Bookmark Novel"
                     android:textAllCaps="false" />
 
