@@ -11,15 +11,15 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         android:theme="@style/AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:fitsSystemWindows="true"
+            android:layout_weight="1"
+            android:fitsSystemWindows="false"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginBottom="35dp"
             app:expandedTitleMarginStart="30dp"
@@ -34,6 +34,26 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_toRightOf="@id/chaptertitlepog"
+                    app:cardBackgroundColor="#00FFFFFF"
+                    app:cardCornerRadius="4dp">
+
+                    <ImageView
+                        android:id="@+id/coverBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:cropToPadding="false" />
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/author"
@@ -52,17 +72,17 @@
 
                     android:text="# of Chapters: " />
 
-                <Button
+                <TextView
                     android:id="@+id/bookmarkButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/chapterNumber"
-                    android:layout_marginLeft="-3.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="32dp"
                     android:drawableLeft="@drawable/ic_not_bookmarked"
+                    android:gravity="bottom"
                     android:text="Bookmark Novel"
-                    android:textAllCaps="false"
-                    android:tint="#FFFFFF"
-                    tools:ignore="VectorDrawableCompat" />
+                    android:textAllCaps="false" />
 
                 <TextView
                     android:id="@+id/chaptertitlepog"
@@ -75,24 +95,6 @@
 
 
             </RelativeLayout>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_marginTop="3dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginBottom="53dp"
-                app:cardBackgroundColor="#00FFFFFF"
-                app:cardCornerRadius="4dp">
-
-                <ImageView
-                    android:id="@+id/coverBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:cropToPadding="false" />
-            </androidx.cardview.widget.CardView>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
