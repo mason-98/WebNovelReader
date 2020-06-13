@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context=".ChapterList">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="false"
+        android:paddingBottom="15dp"
         android:theme="@style/AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -36,14 +37,15 @@
                 android:layout_marginRight="20dp">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/covercard"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
+                    android:layout_alignBottom="@id/bookmarkButton"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="false"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="end"
-                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="3dp"
-                    android:layout_marginBottom="30dp"
-                    android:layout_toRightOf="@id/chaptertitlepog"
                     app:cardBackgroundColor="#00FFFFFF"
                     app:cardCornerRadius="4dp">
 
@@ -57,28 +59,31 @@
 
                 <TextView
                     android:id="@+id/author"
-                    android:layout_width="200dp"
+                    android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/chaptertitlepog"
+                    android:layout_alignParentRight="true"
                     android:layout_centerInParent="false"
                     android:maxLines="2"
                     android:text="Author:" />
 
                 <TextView
                     android:id="@+id/chapterNumber"
-                    android:layout_width="wrap_content"
+                    android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/author"
 
+                    android:layout_alignParentRight="true"
                     android:text="# of Chapters: " />
 
                 <TextView
                     android:id="@+id/bookmarkButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/chaptertitlepog"
+                    android:layout_alignParentRight="false"
                     android:layout_alignParentBottom="true"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="32dp"
                     android:drawableLeft="@drawable/ic_not_bookmarked"
                     android:gravity="bottom"
                     android:paddingRight="3dp"
@@ -88,11 +93,12 @@
 
                 <TextView
                     android:id="@+id/chaptertitlepog"
-                    android:layout_width="200dp"
+                    android:layout_width="220dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:maxLines="3"
-                    android:text="fdasfsdafdsfdsafsddsfadsfsdafdsafsad"
-                    android:textSize="16sp"
+                    android:text="pogggies"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
 

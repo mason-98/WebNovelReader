@@ -2,12 +2,14 @@ package com.example.webnovelreader
 
 import android.content.ContentValues
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.annotation.Px
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -24,6 +26,9 @@ import java.net.InetSocketAddress
 import java.net.Socket
 
 class ChapterList : AppCompatActivity() {
+    private fun DpTopx(px : Int) : Int {
+        return (px * Resources.getSystem().displayMetrics.density).toInt()
+    }
     fun hasInternetConnection(): Single<Boolean> {
         return Single.fromCallable {
             try {
@@ -119,12 +124,14 @@ class ChapterList : AppCompatActivity() {
                 findViewById<TextView>(R.id.chapterNumber).append(book.chapterList.size.toString())
 
                 //list each chapter and a corresponding onclick action
+                val Dp15 = DpTopx(15)
+                val Dp2 = DpTopx(2)
                 val chapterListings = findViewById<LinearLayout>(R.id.chapterListings2)
                     for (chapterNumber in book.chapterList) {
                         val chapter = TextView(this@ChapterList)
                         chapter.text = chapterNumber.chapterTitle
-                        chapter.textSize = 20.0F
-                        chapter.setPadding(30, 20, 0, 70)
+                        chapter.textSize = 16.0F
+                        chapter.setPadding(Dp2, Dp15 ,Dp2,Dp15)
                         chapter.setOnClickListener {
                             val intent = Intent(this@ChapterList, ChapterContents::class.java)
                             intent.putExtra("chapter_url", chapterNumber.url)
