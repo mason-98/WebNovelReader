@@ -219,7 +219,7 @@ class ChapterContents : AppCompatActivity() {
                     edit?.putString("background_colour", "#FFFFFF")
                     edit?.commit()
 
-                } else if (item == "Yellow") {
+                } else if (item == "Sepia") {
                     textbox?.setTextColor(Color.parseColor("#5F4B32"))
                     background?.setBackgroundColor(Color.parseColor("#FBF0D9"))
                     edit?.putString("text_colour", "#5F4B32")

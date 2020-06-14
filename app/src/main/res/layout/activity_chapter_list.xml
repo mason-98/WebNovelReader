@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutbounds"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
@@ -46,8 +47,10 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="end"
                     android:layout_marginTop="3dp"
-                    app:cardBackgroundColor="#00FFFFFF"
-                    app:cardCornerRadius="4dp">
+                    app:cardBackgroundColor="#D5151414"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    app:cardMaxElevation="4dp">
 
                     <ImageView
                         android:id="@+id/coverBackground"
@@ -109,16 +112,17 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/content_chapter_list" />
+        layout="@layout/content_chapter_list"
+        app:layout_anchor="@id/layoutbounds"
+        app:layout_anchorGravity="bottom|end" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
-        app:elevation="0dp"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
+        app:elevation="2dp"
         app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
     <FrameLayout

@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:fontFamily="sans-serif-black"
@@ -78,7 +78,7 @@
             android:text="This is an Example Text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textsizeselector" />
+            app:layout_constraintTop_toBottomOf="@+id/fontspinner" />
 
         <TextView
             android:id="@+id/textView2"
@@ -102,5 +102,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textsizeselector" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
