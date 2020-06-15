@@ -12,12 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.webnovelreader.MainActivity
 import com.example.webnovelreader.R
@@ -26,7 +21,6 @@ import com.example.webnovelreader.RecyclerViewLoadMoreScroll
 import com.example.webnovelreader.interfaces.BookCover
 import com.example.webnovelreader.interfaces.OnLoadMoreListener
 import com.example.webnovelreader.interfaces.WebSite
-import com.example.webnovelreader.websites.BoxNovel
 import com.example.webnovelreader.websitesimport.NovelAll
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single

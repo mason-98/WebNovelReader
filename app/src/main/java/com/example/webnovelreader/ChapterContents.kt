@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment
 import com.example.webnovelreader.interfaces.WebSite
 import com.example.webnovelreader.websites.BoxNovel
@@ -55,21 +56,35 @@ class ChapterContents : AppCompatActivity() {
                 super.onSwipeRight()
                 d("nick", "you swiped right")
                 finish()
-                val intent = Intent(this@ChapterContents, ChapterContents::class.java)
-                intent.putExtra("chapter_url",chapter.prevChapter)
-
-                startActivity(intent)
+                changeChapter(chapter.prevChapter, NovelSource, "You are on the oldest Chapter")
           }
 
             override fun onSwipeLeft() {
                 super.onSwipeLeft()
                 d("nick", "you swiped left")
                 finish()
-                val intent = Intent(this@ChapterContents, ChapterContents::class.java)
-                intent.putExtra("chapter_url",chapter.nextChapter)
-                startActivity(intent)
+                changeChapter(chapter.nextChapter, NovelSource, "You are on the latest Chapter")
             }
         })
+    }
+
+    private fun changeChapter(chapter: String, novelSource: WebSite, toastMsg: String){
+        val intent = Intent(this@ChapterContents, ChapterContents::class.java)
+        if (chapter == ""){
+            val t = Toast.makeText(
+                this.applicationContext,
+                toastMsg,
+                Toast.LENGTH_LONG
+            )
+            t.show()
+        } else {
+            intent.putExtras(
+                bundleOf(
+                    Pair("SourceObject", novelSource), Pair("chapter_url",chapter)
+                )
+            )
+            startActivity(intent)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
