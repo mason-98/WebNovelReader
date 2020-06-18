@@ -13,6 +13,6 @@ interface WebSite : Serializable {
 
     fun scrapeLatestUpdates(page: String, context:Context, allNovel:Boolean) : List<BookCover>
     fun scrapeBook(bookUrl: String): Book
-    fun scrapeChapter(chapterURL: String, chapterTitle: String = "") : Chapter
+    fun scrapeChapter(chapterURL: String, chapterTitle: String = "", bookTitle: String = "") : Chapter
     fun scrapeChapterList(bookUrl: String): List<Chapter>
 }

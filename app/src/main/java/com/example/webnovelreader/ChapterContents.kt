@@ -15,6 +15,7 @@ import androidx.core.os.bundleOf
 import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment
 import com.example.webnovelreader.interfaces.WebSite
 import com.example.webnovelreader.websites.BoxNovel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_chaptercontents.*
 import kotlinx.android.synthetic.main.novel_apperance_settings.*
 import kotlin.math.abs
@@ -48,7 +49,8 @@ class ChapterContents : AppCompatActivity() {
         val NovelSource = intent.extras?.getSerializable("SourceObject") as WebSite
         val chapter = NovelSource.scrapeChapter(chapterUrl)
         anytext.text = chapter.content
-        this@ChapterContents.supportActionBar?.title = chapter.chapterTitle
+        this@ChapterContents.supportActionBar?.subtitle = chapter.chapterTitle
+        this@ChapterContents.supportActionBar?.title = chapter.bookTitle
 
         //create the swiping interaction with the users
         swipingbox.setOnTouchListener(object : OnSwipeTouchListener(this@ChapterContents){
@@ -56,7 +58,7 @@ class ChapterContents : AppCompatActivity() {
                 super.onSwipeRight()
                 d("nick", "you swiped right")
                 finish()
-                changeChapter(chapter.prevChapter, NovelSource, "You are on the oldest Chapter")
+                changeChapter(chapter.prevChapter, NovelSource, "You are on the first Chapter")
           }
 
             override fun onSwipeLeft() {
@@ -72,7 +74,7 @@ class ChapterContents : AppCompatActivity() {
         val intent = Intent(this@ChapterContents, ChapterContents::class.java)
         if (chapter == ""){
             val t = Toast.makeText(
-                this.applicationContext,
+                this@ChapterContents,
                 toastMsg,
                 Toast.LENGTH_LONG
             )

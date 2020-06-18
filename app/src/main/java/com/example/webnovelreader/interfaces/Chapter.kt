@@ -6,5 +6,6 @@ interface Chapter {
     var url: String
     var nextChapter: String
     var prevChapter: String
+    var bookTitle: String
 
 }

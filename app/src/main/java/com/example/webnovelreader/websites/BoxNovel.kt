@@ -54,7 +54,7 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
             chapterListHTML.map {
                 val chapterTitle = it.child(0).text().toString()
                 val chapterURL = it.child(0).attr("href").toString()
-                val chapter = BoxNovelChapter(chapterTitle, chapterURL)
+                val chapter = BoxNovelChapter("",chapterTitle, chapterURL)
                 chapter
             }
         } catch (e: Exception){
@@ -107,7 +107,7 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
         }
     }
 
-    override fun scrapeChapter(chapterURL: String, chapterTitle: String) : BoxNovelChapter {
+    override fun scrapeChapter(chapterURL: String, chapterTitle: String, bookTitle: String) : BoxNovelChapter {
         try {
             val doc = JSoupGetUrl().execute(chapterURL).get()
             val contentHtml = doc.selectFirst("div.text-left").select("p")
@@ -121,6 +121,7 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
             prevChapterHTML?.let {
                 prevChapter = it.attr("href").toString()
             }
+
             val content =
                 if (contentHtml[0].toString().contains("<strong>")){
                     contentHtml.drop(1).joinToString(separator = "").replace("<p>&nbsp;</p>", "").replace(
@@ -132,16 +133,23 @@ class BoxNovel(override val baseURL: String = "https://boxnovel.com/",
                     ).replace("</p>", "\n\n")
                 }
 
+            val newBookTitle:String
+            newBookTitle = if (bookTitle==""){
+                doc.select("ol.breadcrumb a")[1].text().toString().trim()
+            } else {
+                bookTitle
+            }
+
             val newChapterTitle: String
             newChapterTitle = if (chapterTitle == "") {
                 doc.select("li.active").text().toString()
             } else {
                 chapterTitle
             }
-            return BoxNovelChapter(newChapterTitle, chapterURL, content, nextChapter, prevChapter)
+            return BoxNovelChapter(newBookTitle, newChapterTitle, chapterURL, content, nextChapter, prevChapter)
         } catch (e: Exception){
             d("Error", e.toString())
-            return BoxNovelChapter("", "", "", "", "")
+            return BoxNovelChapter("","", "", "", "", "")
         }
 
     }

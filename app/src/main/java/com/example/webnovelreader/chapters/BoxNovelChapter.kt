@@ -2,14 +2,15 @@ package com.example.webnovelreader.chapters
 
 import com.example.webnovelreader.interfaces.Chapter
 
-class BoxNovelChapter(
+class BoxNovelChapter(bookTitle: String,
     chapterTitle: String,
     url: String,
     content: String = "",
     nextChapter: String = "",
     prevChapter: String = ""
 ) : Chapter {
-
+    override var bookTitle: String = bookTitle
+        set(bookTitle) {this.bookTitle = bookTitle}
     override var chapterTitle: String = chapterTitle
         set(chapterTitle) {this.chapterTitle = chapterTitle}
     override var content: String = content

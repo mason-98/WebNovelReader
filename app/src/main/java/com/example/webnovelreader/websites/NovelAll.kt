@@ -46,7 +46,7 @@ class NovelAll (override val baseURL: String = "https://www.novelall.com/",
             chapterListHTML.map {
                 val chapterTitle = it.child(0).attr("title").toString()
                 val chapterURL = it.child(0).attr("href").toString()
-                val chapter = NovelAllChapter(chapterTitle, chapterURL)
+                val chapter = NovelAllChapter("",chapterTitle, chapterURL)
                 chapter
             }
         } catch (e: Exception){
@@ -100,33 +100,49 @@ class NovelAll (override val baseURL: String = "https://www.novelall.com/",
         }
     }
 
-    override fun scrapeChapter(chapterURL: String, chapterTitle: String) : NovelAllChapter {
+    override fun scrapeChapter(chapterURL: String, chapterTitle: String, bookTitle: String) : NovelAllChapter {
         try {
             val doc = JSoupGetUrl().execute(chapterURL).get()
             val contentHtml = doc.selectFirst("section.mangaread-img div.reading-box").select("p")
             var nextChapter = ""
             var prevChapter = ""
-            val nextChapterHTML = doc.select("div.mangaread-pagenav a")[0]
+            val nextChapterHTML = doc.select("div.mangaread-pagenav a")[1]
             nextChapterHTML?.let {
                 nextChapter = it.attr("href").toString()
             }
-            var prevChapterHTML = doc.select("div.mangaread-pagenav a")[1]
+            if(nextChapter=="/"){
+                nextChapter=""
+            }
+
+            var prevChapterHTML = doc.select("div.mangaread-pagenav a")[0]
             prevChapterHTML?.let {
                 prevChapter = it.attr("href").toString()
             }
+            if(prevChapter=="/"){
+                prevChapter=""
+            }
             val content = contentHtml.joinToString(separator = "").replace("</p><p>", "\n\n").replace("<p>", "").replace("</p>", "")
 
+            val newBookTitle: String
+            newBookTitle = if (bookTitle == "") {
+                doc.select("section.mangaread-top div.title h2").text().toString()
+            } else {
+                bookTitle
+            }
 
             val newChapterTitle: String
+            val regex: Regex = ("(?i)^" + doc.select("section.mangaread-top div.title h2").text().toString().trim()).toRegex()
             newChapterTitle = if (chapterTitle == "") {
-                doc.select("section.mangaread-top div.title h1").text().toString()
+                doc.select("section.mangaread-top div.title h1").text().toString().replace(regex, "").trim()
+
+
             } else {
                 chapterTitle
             }
-            return NovelAllChapter(newChapterTitle, chapterURL, content, nextChapter, prevChapter)
+            return NovelAllChapter(newBookTitle,newChapterTitle, chapterURL, content, nextChapter, prevChapter)
         } catch (e: Exception){
             d("Error", e.toString())
-            return NovelAllChapter("", "", "", "", "")
+            return NovelAllChapter("","", "", "", "", "")
         }
     }
 }

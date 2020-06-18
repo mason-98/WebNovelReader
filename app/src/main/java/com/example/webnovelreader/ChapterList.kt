@@ -110,6 +110,7 @@ class ChapterList : AppCompatActivity() {
                     website.scrapeBook(bookUrl)
                 val cover = intent.extras?.getParcelable<Bitmap>("bookCover") as Bitmap
 
+
                 val title = findViewById<TextView>(R.id.chaptertitlepog)
                 title.text = book.title
 
