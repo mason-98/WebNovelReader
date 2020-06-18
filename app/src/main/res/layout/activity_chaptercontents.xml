@@ -16,9 +16,7 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:subtitle="chapter 2"
-        app:title="BloodBlade">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/readersettings"
